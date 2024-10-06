@@ -12,4 +12,11 @@ PsicologoResource.get(Endpoints.PSICOLOGO.getUsuariosPsicologos, (req: Request, 
   return psicologoController.getAll(req, res); 
 });
 
+/**
+ * Método para buscar todos os usuários psicólogos
+ */
+PsicologoResource.get(Endpoints.PSICOLOGO.listarPacientes, (req: Request, res: Response) => {
+  return psicologoController.listarPacientes(req, res); 
+});
+
 export default PsicologoResource;

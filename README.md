@@ -1,4 +1,3 @@
-```markdown
 # Api-Projeto-Integrador
 Repositório destinado á api do projeto integrador
 
@@ -36,24 +35,22 @@ npm install
   npm start
   ```
 
-- **Compilar o código TypeScript para JavaScript**:
-
-  ```bash
-  npm run build
-  ```
-
 ## Rotas
 
 Rotas que estão disponíveis na API até o momento:
 ### `/psicologo/all`
-
 - **Método:** `GET`
 - **Descrição:** Retorna todos os usuários psicologo.
 - **Resposta:** `200 OK` com a lista de usuários psicologo.
 
-### Exemplos de Requisições
+### `/psicologo/listarPacientes?idPsicologo`
+- **Método:** `GET`
+- **Descrição:** Retorna todos os usuários pacientes relacionados ao psicologo.
+- **Resposta:** `200 OK` com a lista de usuários pacientes.
 
-**Requisiçãoções GET:**
+
+### Exemplos de Requisições
+**Requisição GET: (exemplo)**
 
 ```bash
 curl -X GET http://localhost:3000/paciente/all
@@ -62,38 +59,32 @@ curl -X GET http://localhost:3000/anotacao/all
 curl -X GET http://localhost:3000/atividade/all
 ```
 
-**Requisiçãoções PUT:**
+**Requisição PUT:**
 
 ```bash
 TODO
 ```
 
-**Requisiçãoções POST:**
+**Requisição POST:**
 
 ```bash
 TODO
 ```
 
-**Requisiçãoções DELETE:**
+**Requisição DELETE:**
 
 ```bash
 TODO
 ```
 
-**Respostas previstas:**
-
-```json
-{
-  "mensagem": "Esses são todos os usuários pacientes: ... TODO"
-}
-```
 
 ## Observações
-
 - **Ambiente de Desenvolvimento:** Utilize o script `npm run dev` para iniciar o servidor com `nodemon`, que reinicia automaticamente o servidor quando mudanças são detectadas no código.
-- **Ambiente de Produção:** Para compilar o código e executar a versão compilada, utilize o script `npm run build` seguido de `npm start`.
-- **Configuração:** Certifique-se de que o arquivo `.env` está configurado corretamente para conectar a API ao banco de dados, se aplicável.
-- **Contribuições:** Sinta-se à vontade para enviar pull requests e sugestões. Para relatar problemas ou pedir recursos, abra uma issue no 
-repositório.
 
-```
+- **Escruta de MD:** Sempre que houver a criação de um novo endpoint, catalogar no README para posteriormente ser catalogado no swagger. 
+
+- **Ambiente de Produção:** Para compilar o código e executar a versão compilada, utilize o script `npm run build` seguido de `npm start`.
+
+- **Configuração:** Certifique-se de que o arquivo `.env` está configurado corretamente para conectar a API ao banco de dados, se aplicável.
+
+

@@ -9,7 +9,8 @@ enum Routes{
 export const Endpoints = {
     'PSICOLOGO' : {
         "basePath" : Routes.PSICOLOGO,
-        "getUsuariosPsicologos" :  "/all"
+        "getUsuariosPsicologos" :  "/all",
+        "listarPacientes" : "/listarPacientes"
     },
     'PACIENTE' : {
         "basePath" : Routes.PACIENTE,

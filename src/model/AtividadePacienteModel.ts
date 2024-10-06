@@ -39,4 +39,5 @@ AtividadePacienteModel.init({
 }, {
     sequelize,
     tableName: 'AtividadePaciente',
+    timestamps: false,  // Adicione esta linha,
 });

@@ -4,12 +4,12 @@ import sequelize from "../db/sequelize";
 export class PacienteModel extends Model {
     public idPaciente!: number;
     public nome!: string;
-    public dataNascimento!: Date;
+    public Data_Nascimento!: Date;
     public cpf!: string;
     public email!: string;
     public nomeDoResponsavel!: string;
     public telefone!: string;
-    public fkIdProfissional!: number;
+    public fk_idProfissional!: number;
 }
 
 PacienteModel.init({
@@ -22,7 +22,7 @@ PacienteModel.init({
         type: DataTypes.STRING(255),
         allowNull: false,
     },
-    dataNascimento: {
+    Data_Nascimento: {
         type: DataTypes.DATE,
         allowNull: false,
     },
@@ -42,11 +42,12 @@ PacienteModel.init({
         type: DataTypes.STRING(15),
         allowNull: true,
     },
-    fkIdProfissional: {
+    fk_idProfissional: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
 }, {
     sequelize,
     tableName: 'Paciente',
+    timestamps: false,  
 });
