@@ -45,23 +45,39 @@ npm install
 ## Rotas
 
 Rotas que estão disponíveis na API até o momento:
-
-### `/task/all`
 ### `/psicologo/all`
-### `/paciente/all`
 
 - **Método:** `GET`
-- **Descrição:** Retorna todos os usuários pacientes.
-- **Resposta:** `200 OK` com a lista de usuários pacientes.
+- **Descrição:** Retorna todos os usuários psicologo.
+- **Resposta:** `200 OK` com a lista de usuários psicologo.
 
 ### Exemplos de Requisições
 
-**Requisição:**
+**Requisiçãoções GET:**
 
 ```bash
-curl -X GET http://localhost:3000/task/all
-curl -X GET http://localhost:3000/psicologo/all
 curl -X GET http://localhost:3000/paciente/all
+curl -X GET http://localhost:3000/psicologo/all
+curl -X GET http://localhost:3000/anotacao/all
+curl -X GET http://localhost:3000/atividade/all
+```
+
+**Requisiçãoções PUT:**
+
+```bash
+TODO
+```
+
+**Requisiçãoções POST:**
+
+```bash
+TODO
+```
+
+**Requisiçãoções DELETE:**
+
+```bash
+TODO
 ```
 
 **Respostas previstas:**

@@ -1,4 +1,3 @@
-import Api from "..";
 import { Request, Response, Router } from 'express';
 import { Endpoints } from "../enums/Paths";
 

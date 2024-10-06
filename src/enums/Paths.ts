@@ -2,7 +2,8 @@
 enum Routes{
     PSICOLOGO = "/psicologo",
     PACIENTE = "/paciente",
-    TASK = "/task"
+    ATIVIDADE_PACIENTE = "/atividade",
+    ANOTACAO_PACIENTE  = "/anotacao"
 }
 
 export const Endpoints = {
@@ -14,9 +15,12 @@ export const Endpoints = {
         "basePath" : Routes.PACIENTE,
         "getUsuariosPaciente" : "/all"
     },
-    'TASK' : {
-        "basePath" : Routes.TASK,
-        "getAllTask" : "/all"
+    'ATIVIDADES' : {
+        "basePath" : Routes.ATIVIDADE_PACIENTE,
+        "getAllAtividades" : "/all"
+    },'ANOTACOES' : {
+        "basePath" : Routes.ANOTACAO_PACIENTE,
+        "getAllAnotacoes" : "/all"
     },
     'TESTES':{
         "pingApi" : "/"
