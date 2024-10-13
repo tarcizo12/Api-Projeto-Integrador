@@ -31,6 +31,7 @@ AtividadePacienteModel.init({
     dhFim: {
         type: DataTypes.DATE,
         allowNull: true,
+        field: 'DH_Fim',
     },
     fk_idPaciente: {
         type: DataTypes.INTEGER,
@@ -38,6 +39,6 @@ AtividadePacienteModel.init({
     },
 }, {
     sequelize,
-    tableName: 'AtividadePaciente',
+    tableName: 'Atividade_Paciente',
     timestamps: false,  // Adicione esta linha,
 });

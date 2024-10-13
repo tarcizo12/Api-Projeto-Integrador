@@ -36,17 +36,10 @@ npm install
   ```
 
 ## Rotas
-
-Rotas que estão disponíveis na API até o momento:
-### `/psicologo/all`
-- **Método:** `GET`
-- **Descrição:** Retorna todos os usuários psicologo.
-- **Resposta:** `200 OK` com a lista de usuários psicologo.
-
-### `/psicologo/listarPacientes?idPsicologo`
-- **Método:** `GET`
-- **Descrição:** Retorna todos os usuários pacientes relacionados ao psicologo.
-- **Resposta:** `200 OK` com a lista de usuários pacientes.
+Rotas que estão disponíveis na API até o momento estarão salvas no colletions do postman 
+  ```Path
+    postman\Api-Projeto-Integrador.postman_collection.json
+  ```
 
 
 ### Exemplos de Requisições

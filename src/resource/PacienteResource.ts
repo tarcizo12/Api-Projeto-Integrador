@@ -1,16 +1,40 @@
 import { Request, Response, Router } from 'express';
 import { Endpoints } from "../enums/Paths";
+import { PacienteController } from '../controller/PacienteController';
+
+export class PacienteResource {
+  private router: Router;
+  private pacienteController: PacienteController;
 
 
-const PacienteResource = Router();
+  constructor() {
+    this.router = Router();
+    this.initializeRoutes();
+    this.pacienteController = new PacienteController();
+  }
 
-/**
- * Método para Buscar todos os usuários pacientes
- */
-PacienteResource.get(Endpoints.PACIENTE.getUsuariosPaciente, (req: Request, res: Response) => {
-  res.send('Esses são todos os usuários pacientes: ... TODO');
-});
+  /**
+   * Inicializa as rotas associadas aos recursos de Paciente.
+   */
+  private initializeRoutes(): void {
+    this.router.get(
+      Endpoints.PACIENTE.getUsuariosPaciente,
+      (req: Request, res: Response) => this.pacienteController.getAll(req, res)
+    );
+
+    this.router.get(
+      Endpoints.PACIENTE.getPacienteById,
+      (req: Request, res: Response) => this.pacienteController.getPacienteById(req, res)
+    );
+
+    this.router.get(
+      Endpoints.PACIENTE.getPacientesByIdProfissional,
+      (req: Request, res: Response) => this.pacienteController.getPacientesPorProfssional(req, res)
+    );
+  }
 
 
+  public getRouter(): Router { return this.router}
+}
 
-export default PacienteResource;
+export default new PacienteResource().getRouter();

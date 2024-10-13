@@ -10,15 +10,19 @@ export const Endpoints = {
     'PSICOLOGO' : {
         "basePath" : Routes.PSICOLOGO,
         "getUsuariosPsicologos" :  "/all",
-        "listarPacientes" : "/listarPacientes"
+        "getPsicologoById" : "/buscarPsicologo",
     },
     'PACIENTE' : {
         "basePath" : Routes.PACIENTE,
-        "getUsuariosPaciente" : "/all"
+        "getUsuariosPaciente" : "/all",
+        "getPacienteById" : "/buscarPaciente",
+        "getPacientesByIdProfissional" : "/buscarPacientePorProfissional"
     },
     'ATIVIDADES' : {
         "basePath" : Routes.ATIVIDADE_PACIENTE,
-        "getAllAtividades" : "/all"
+        "getAllAtividades" : "/all",        
+        "getAtividadeById" : "/buscarAtividade",
+        "getAtividadesByIdPaciente" : "/buscarAtividadesPorPaciente"
     },'ANOTACOES' : {
         "basePath" : Routes.ANOTACAO_PACIENTE,
         "getAllAnotacoes" : "/all"

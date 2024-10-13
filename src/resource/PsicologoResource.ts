@@ -2,21 +2,33 @@ import { Request, Response, Router } from 'express';
 import { PsicologoController } from '../controller/PsicologoController'; 
 import { Endpoints } from "../enums/Paths";
 
-const PsicologoResource = Router();
-const psicologoController = new PsicologoController();
+export class PsicologoResource {
+  private router: Router;
+  private psicologoController: PsicologoController;
 
-/**
- * Método para buscar todos os usuários psicólogos
- */
-PsicologoResource.get(Endpoints.PSICOLOGO.getUsuariosPsicologos, (req: Request, res: Response) => {
-  return psicologoController.getAll(req, res); 
-});
 
-/**
- * Método para buscar todos os usuários psicólogos
- */
-PsicologoResource.get(Endpoints.PSICOLOGO.listarPacientes, (req: Request, res: Response) => {
-  return psicologoController.listarPacientes(req, res); 
-});
+  constructor() {
+    this.router = Router();
+    this.psicologoController = new PsicologoController();
+    this.initializeRoutes();
+  }
 
-export default PsicologoResource;
+  /**
+   * Inicializa as rotas associadas aos recursos de Psicólogo.
+   */
+  private initializeRoutes(): void {
+    this.router.get(
+      Endpoints.PSICOLOGO.getUsuariosPsicologos,
+      (req: Request, res: Response) => this.psicologoController.getAll(req, res)
+    );
+
+    this.router.get(
+      Endpoints.PSICOLOGO.getPsicologoById,
+      (req: Request, res: Response) => this.psicologoController.getPsicologoById(req, res)
+    );
+  }
+
+  public getRouter(): Router { return this.router}
+}
+
+export default new PsicologoResource().getRouter();

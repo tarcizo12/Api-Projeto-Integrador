@@ -1,19 +1,20 @@
 import { Request, Response } from 'express';
-import { PsicologoModel } from '../model/PsicologoModel';
-import { PacienteModel } from '../model/PacienteModel';
 import { HttpStatus } from '../enums/HttpStatus';
-import { ErroBodyMensage } from '../model/ErroBodyMensage';
+import { ErroBodyMensage } from '../model/ErroBodyMensage'
+import { PsicologoService } from '../service/PsicologoService';
+import { StringUtil } from '../utils/StringUtil';
+import { Parametros } from '../enums/Parametros';
 
-export class PsicologoController {
 
-    /**
-     * Método para Buscar todos os usuários pacientes
-     * @return Promise<Response>
-     */
+//Classe de implementação dos contratos
+export class PsicologoController{
+
+    private psicologoService: PsicologoService = new PsicologoService;
+
+
     public async getAll(req: Request, res: Response): Promise<Response> {
         try {
-            const psicologos: PsicologoModel[] = await PsicologoModel.findAll()
-            return res.status(HttpStatus.OK.code).json(psicologos); 
+            return res.status(HttpStatus.OK.code).json(await this.psicologoService.listarTodosPsicologos()); 
         } catch (error) {
             const statusReturn = HttpStatus.INTERNAL_SERVER_ERROR;
 
@@ -22,27 +23,21 @@ export class PsicologoController {
         }
     }
 
-    /**
-     * Método para Buscar todos os pacientes do profissional
-     * @return Promise<Response>
-     */
-    public async listarPacientes(req: Request, res: Response): Promise<Response> {
+    
+    public async getPsicologoById(req: Request, res: Response): Promise<Response> {
         try {
-            const fk_idProfissional = req.query.idPsicologo;
-
-            if (!fk_idProfissional) {
-                return res.status(HttpStatus.BAD_REQUEST.code).json({ message: 'O ID do profissional é obrigatório' });
+            const idPsicologo: string = StringUtil.getQueryString(req.query, Parametros.ID_PSICOLOGO);
+     
+            if (!idPsicologo) {
+                return res.status(HttpStatus.BAD_REQUEST.code).json({ message: 'O ID do psicologo é obrigatório' });
             }
 
-            const pacientes: PacienteModel[] = await PacienteModel.findAll({where: {fk_idProfissional} });
-
-            return res.status(HttpStatus.OK.code).json(pacientes);
+            return res.status(HttpStatus.OK.code).json(await this.psicologoService.buscarPsicologoById(Number(idPsicologo)));
         } catch (error) {
             const statusReturn = HttpStatus.INTERNAL_SERVER_ERROR;
 
-            console.error('Erro ao buscar pacientes relacionados a esse psicologo:', error);
-            return res.status(statusReturn.code).json(ErroBodyMensage.createErrorBody("Erro ao buscar pacientes desse profissional" , statusReturn.description));
+            console.error('Erro ao buscar profissionall', error);
+            return res.status(statusReturn.code).json(ErroBodyMensage.createErrorBody("Erro ao buscar profissionall" , statusReturn.description));
         }
     }
-
 }
