@@ -1,17 +1,15 @@
 import { Request, Response } from 'express';
-import { PsicologoModel } from '../model/PsicologoModel';
-import { PacienteModel } from '../model/PacienteModel';
 import { HttpStatus } from '../enums/HttpStatus';
 import { ErroBodyMensage } from '../model/ErroBodyMensage';
 import { StringUtil } from '../utils/StringUtil';
-import { PacienteService } from '../service/PacienteService';
 import { Parametros } from '../enums/Parametros';
 import { AtividadePacienteService } from '../service/AtividadePacienteService';
+import { AtividadesPacienteInterface } from '../interfaces/AtividadesPacienteInterface';
 
 
 //Classe de implementação dos contratos
 export class AtividadePacienteController {
-    private atividadePacienteService: AtividadePacienteService = new AtividadePacienteService; 
+    private atividadePacienteService: AtividadesPacienteInterface = new AtividadePacienteService; 
 
     public async getAll(req: Request, res: Response): Promise<Response> {
         try {

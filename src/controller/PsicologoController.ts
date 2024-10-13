@@ -4,12 +4,13 @@ import { ErroBodyMensage } from '../model/ErroBodyMensage'
 import { PsicologoService } from '../service/PsicologoService';
 import { StringUtil } from '../utils/StringUtil';
 import { Parametros } from '../enums/Parametros';
+import { PsicologoServiceInterface } from '../interfaces/PsicologoServiceInterface';
 
 
 //Classe de implementação dos contratos
 export class PsicologoController{
 
-    private psicologoService: PsicologoService = new PsicologoService;
+    private psicologoService: PsicologoServiceInterface = new PsicologoService;
 
 
     public async getAll(req: Request, res: Response): Promise<Response> {
