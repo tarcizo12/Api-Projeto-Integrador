@@ -21,6 +21,7 @@ AnotacaoPacienteModel.init({
     dhRegistro: {
         type: DataTypes.DATE,
         allowNull: true,
+        field: `DH_Registro`
     },
     fk_idPaciente: {
         type: DataTypes.INTEGER,
@@ -28,6 +29,6 @@ AnotacaoPacienteModel.init({
     },
 }, {
     sequelize,
-    tableName: 'AnotacaoPaciente',
+    tableName: 'Anotacao_Paciente',
     timestamps: false,  // Adicione esta linha,
 });

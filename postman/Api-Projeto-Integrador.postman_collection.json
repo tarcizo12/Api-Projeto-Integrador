@@ -148,6 +148,19 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "AnotacaoPaciente",
+			"item": [
+				{
+					"name": "Aboter anotacao por id paciente",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -191,6 +204,11 @@
 		{
 			"key": "end_point_atividade",
 			"value": "atividade",
+			"type": "string"
+		},
+		{
+			"key": "end_point_anotacao",
+			"value": "anotacao",
 			"type": "string"
 		}
 	]

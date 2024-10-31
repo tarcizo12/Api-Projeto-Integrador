@@ -25,7 +25,8 @@ export const Endpoints = {
         "getAtividadesByIdPaciente" : "/buscarAtividadesPorPaciente"
     },'ANOTACOES' : {
         "basePath" : Routes.ANOTACAO_PACIENTE,
-        "getAllAnotacoes" : "/all"
+        "getAllAnotacoes" : "/all",
+        "getAnotacaoPorIdPaciente" : "/buscarAnotacaoPorIdPaciente"
     },
     'TESTES':{
         "pingApi" : "/"
