@@ -18,8 +18,18 @@ export class AnotacaoPacienteService implements AnotacaoPacienteInterface{
     }
 
 
-    salvarAnoacaoPaciente(pacienteParaSalvar: PacienteModel): Promise<number> {
-        throw new Error("Method not implemented.");//TODO
+    async salvarAnoacaoPaciente(anotacaoParaSalvar: AnotacaoPacienteModel): Promise<number | undefined> {
+        try {
+            const novaAnotacao = await AnotacaoPacienteModel.create({
+                descricao: anotacaoParaSalvar.descricao,
+                dhRegistro: new Date(), 
+                fk_idPaciente: anotacaoParaSalvar.fk_idPaciente, 
+            });
+            
+            return novaAnotacao.idAnotacao;
+        } catch (error) {
+            console.error("Erro ao salvar anotação:", error);
+        }
     }
 
 }

@@ -26,7 +26,8 @@ export const Endpoints = {
     },'ANOTACOES' : {
         "basePath" : Routes.ANOTACAO_PACIENTE,
         "getAllAnotacoes" : "/all",
-        "getAnotacaoPorIdPaciente" : "/buscarAnotacaoPorIdPaciente"
+        "getAnotacaoPorIdPaciente" : "/buscarAnotacaoPorIdPaciente",
+        "postAnotacao" : "/registrarAnotacao"
     },
     'TESTES':{
         "pingApi" : "/"

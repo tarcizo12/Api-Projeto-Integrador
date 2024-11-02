@@ -13,6 +13,6 @@ export interface AnotacaoPacienteInterface {
      * Método para persistir anotacao feita por p paciente
      * @return Sequencial do registro feito
      */
-    salvarAnoacaoPaciente(pacienteParaSalvar: PacienteModel): Promise<number>;
+    salvarAnoacaoPaciente(anotacaoParaSalvar: AnotacaoPacienteModel): Promise<number | undefined>;
 
 }

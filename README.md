@@ -26,12 +26,6 @@ npm install
 - **Iniciar a API em modo desenvolvimento** (com reinicialização automática):
 
   ```bash
-  npm run dev
-  ```
-
-- **Iniciar a API** (executa o código TypeScript diretamente):
-
-  ```bash
   npm start
   ```
 
@@ -75,8 +69,6 @@ TODO
 - **Ambiente de Desenvolvimento:** Utilize o script `npm run dev` para iniciar o servidor com `nodemon`, que reinicia automaticamente o servidor quando mudanças são detectadas no código.
 
 - **Escruta de MD:** Sempre que houver a criação de um novo endpoint, catalogar no README para posteriormente ser catalogado no swagger. 
-
-- **Ambiente de Produção:** Para compilar o código e executar a versão compilada, utilize o script `npm run build` seguido de `npm start`.
 
 - **Configuração:** Certifique-se de que o arquivo `.env` está configurado corretamente para conectar a API ao banco de dados, se aplicável.
 

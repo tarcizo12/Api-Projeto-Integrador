@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS Atividade_Paciente (
     Descricao VARCHAR(255),
     NivelDificuldade DECIMAL(2,1),
     ObservacaoAtividade VARCHAR(255),
-    DH_Fim DATE,
+    DH_Fimanotacao_paciente DATE,
     fk_idPaciente INT,
     FOREIGN KEY (fk_idPaciente) REFERENCES Paciente(idPaciente)
 );
