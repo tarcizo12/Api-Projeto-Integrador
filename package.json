@@ -15,6 +15,7 @@
     "@types/node": "^22.5.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
+    "groq-sdk": "^0.8.0",
     "mysql2": "^3.11.3",
     "sequelize": "^6.37.4",
     "sequelize-typescript": "^2.1.6",
