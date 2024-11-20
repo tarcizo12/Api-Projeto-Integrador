@@ -1,4 +1,3 @@
-import { Request, Response } from "express";
 import { PacienteServiceInterface } from "../interfaces/PacienteServiceInterface";
 import { PacienteModel } from "../model/PacienteModel";
 

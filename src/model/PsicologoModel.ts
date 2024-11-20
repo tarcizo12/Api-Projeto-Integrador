@@ -14,6 +14,7 @@ PsicologoModel.init({
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        allowNull: false,
     },
     nome: {
         type: DataTypes.STRING(255),

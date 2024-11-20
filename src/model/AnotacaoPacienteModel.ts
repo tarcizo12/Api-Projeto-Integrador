@@ -13,14 +13,19 @@ AnotacaoPacienteModel.init({
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        allowNull: false,
     },
     descricao: {
         type: DataTypes.STRING(255),
-        allowNull: true,
+        allowNull: false,
+    },
+    emocaoEstimada: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
     },
     dhRegistro: {
         type: DataTypes.DATE,
-        allowNull: true,
+        allowNull: false,
         field: `DH_Registro`
     },
     fk_idPaciente: {
@@ -30,5 +35,5 @@ AnotacaoPacienteModel.init({
 }, {
     sequelize,
     tableName: 'Anotacao_Paciente',
-    timestamps: false,  // Adicione esta linha,
+    timestamps: false,  
 });

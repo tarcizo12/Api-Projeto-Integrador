@@ -4,7 +4,7 @@ USE projeto_integrador;
 
 -- Tabela Profissional
 CREATE TABLE IF NOT EXISTS Psicologo (
-    idProfissional INT PRIMARY KEY AUTO_INCREMENT,
+    idProfissional INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     Nome VARCHAR(255) NOT NULL,
     CPF VARCHAR(11) NOT NULL,
     CRP VARCHAR(15),
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS Psicologo (
 
 -- Tabela Paciente
 CREATE TABLE IF NOT EXISTS Paciente (
-    idPaciente INT PRIMARY KEY AUTO_INCREMENT,
+    idPaciente INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     Nome VARCHAR(255) NOT NULL,
     Data_Nascimento DATE NOT NULL,
     CPF VARCHAR(11) NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS Paciente (
 
 -- Tabela Atividades Paciente
 CREATE TABLE IF NOT EXISTS Atividade_Paciente (
-    idAtividade INT PRIMARY KEY AUTO_INCREMENT,
+    idAtividade INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     Descricao VARCHAR(255),
     NivelDificuldade DECIMAL(2,1),
     ObservacaoAtividade VARCHAR(255),
@@ -37,8 +37,9 @@ CREATE TABLE IF NOT EXISTS Atividade_Paciente (
 
 -- Tabela Anotações Paciente
 CREATE TABLE IF NOT EXISTS Anotacao_Paciente (
-    idAnotacao INT PRIMARY KEY AUTO_INCREMENT,
-    Descricao VARCHAR(255),
+    idAnotacao INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    Descricao VARCHAR(255) NOT NULL,
+    EmocaoEstimada VARCHAR(255) NOT NULL,
     DH_Registro DATE,
     fk_idPaciente INT,
     FOREIGN KEY (fk_idPaciente) REFERENCES Paciente(idPaciente)

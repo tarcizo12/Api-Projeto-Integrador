@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import sequelize from "../db/sequelize"; // Importe sua conexão com o banco
+import sequelize from "../db/sequelize"; 
 
 export class AtividadePacienteModel extends Model {
     public idAtividade!: number;
@@ -15,10 +15,11 @@ AtividadePacienteModel.init({
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        allowNull: false
     },
     descricao: {
         type: DataTypes.STRING(255),
-        allowNull: true,
+        allowNull: false,
     },
     nivelDificuldade: {
         type: DataTypes.DECIMAL(2, 1),

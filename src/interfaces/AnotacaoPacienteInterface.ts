@@ -8,6 +8,12 @@ export interface AnotacaoPacienteInterface {
      */
     listarAntacoesPorIdPaciente(fk_idPaciente: number): Promise<AnotacaoPacienteModel[]>;
 
+    /**
+     * Método para determinar a emoção estimada daquela anotação
+     * @return Emocao do relato
+     */
+    obterEmocaoDescricaoAnotacao(descricaoAnotacao: string): Promise<string>;
+
 
     /**
      * Método para persistir anotacao feita por p paciente
