@@ -1,7 +1,9 @@
 import { AtividadesPacienteInterface } from "../interfaces/AtividadesPacienteInterface";
 import { AtividadePacienteModel } from "../model/AtividadePacienteModel";
 
-//Classe de implementação dos contratos
+/**
+ * Classe de implementação dos contratos
+ */
 export class AtividadePacienteService implements AtividadesPacienteInterface{
 
     listarTodasAtividades(): Promise<AtividadePacienteModel[]> {

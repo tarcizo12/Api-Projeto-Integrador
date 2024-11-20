@@ -2,7 +2,9 @@ import { PacienteServiceInterface } from "../interfaces/PacienteServiceInterface
 import { PacienteModel } from "../model/PacienteModel";
 
 
-//Classe de implementação dos contratos
+/**
+ * Classe de implementação dos contratos
+ */
 export class PacienteService implements PacienteServiceInterface{
 
     listarTodosPacientes(): Promise<PacienteModel[]> {

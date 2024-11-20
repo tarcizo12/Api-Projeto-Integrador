@@ -1,32 +1,14 @@
 import { AnotacaoPacienteInterface } from "../interfaces/AnotacaoPacienteInterface";
 import { AnotacaoPacienteModel } from "../model/AnotacaoPacienteModel";
-import {analyzeEmotionFromMessage} from '../groq/GroqConfig'
+import obterEmocaoDescricaoAnotacao from '../groq/GroqConfig'
 
-//Classe de implementação dos contratos
+
+/**
+ * Classe de implementação dos contratos
+ */
 export class AnotacaoPacienteService implements AnotacaoPacienteInterface{
 
-
-    async obterEmocaoDescricaoAnotacao(descricaoAnotacao: string): Promise<string> {
-        try {
-            console.log(`Mensagem de teste: "${descricaoAnotacao}"`);
-            
-            const emotion = await analyzeEmotionFromMessage(descricaoAnotacao);
-            
-            console.log('Análise de emoção retornada:');
-            console.log(emotion);
     
-            return emotion; 
-        } catch (error) {
-            const err = error instanceof Error ? error : new Error(String(error));
-            console.error('Erro ao testar a análise de emoção:');
-            console.error(`Mensagem de erro: ${err.message}`);
-    
-            
-            throw new Error('Não foi possível analisar a emoção. Por favor, tente novamente.');
-        }
-    }
-    
-
     listarAntacoesPorIdPaciente(fk_idPaciente: number): Promise<AnotacaoPacienteModel[]> {
         try {
             return AnotacaoPacienteModel.findAll({where: {fk_idPaciente} });
@@ -38,9 +20,12 @@ export class AnotacaoPacienteService implements AnotacaoPacienteInterface{
 
 
     async salvarAnoacaoPaciente(anotacaoParaSalvar: AnotacaoPacienteModel): Promise<number | undefined> {
+        const emocaoGerada = (await obterEmocaoDescricaoAnotacao(anotacaoParaSalvar.descricao)).toString()
+
         try {
             const novaAnotacao = await AnotacaoPacienteModel.create({
                 descricao: anotacaoParaSalvar.descricao,
+                emocaoEstimada: emocaoGerada,
                 dhRegistro: new Date(), 
                 fk_idPaciente: anotacaoParaSalvar.fk_idPaciente, 
             });

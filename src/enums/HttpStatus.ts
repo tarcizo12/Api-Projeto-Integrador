@@ -1,5 +1,5 @@
 
-export const HttpStatus = {
+const HttpStatus = {
     "OK": {
       "code": 200,
       "description": "The request was successful."
@@ -77,3 +77,6 @@ export const HttpStatus = {
       "description": "The server does not support the HTTP version used in the request."
     }
 }
+
+
+export default HttpStatus

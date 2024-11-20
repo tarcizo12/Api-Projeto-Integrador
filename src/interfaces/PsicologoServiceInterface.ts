@@ -1,7 +1,8 @@
-import { Request, Response } from 'express';
 import { PsicologoModel } from '../model/PsicologoModel';
-import { PacienteModel } from '../model/PacienteModel';
 
+/**
+ * Classe de contrato
+ */
 export interface PsicologoServiceInterface {
     /**
      * Método para Buscar todos os usuários de perfil "Psicologo"

@@ -21,7 +21,7 @@ AnotacaoPacienteModel.init({
     },
     emocaoEstimada: {
         type: DataTypes.STRING(255),
-        allowNull: false,
+        allowNull: true,
     },
     dhRegistro: {
         type: DataTypes.DATE,

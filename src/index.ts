@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { Endpoints } from './enums/Paths';
-import { Routes } from './enums/Routes';
+import  Routes from './enums/Routes';
 
 dotenv.config();
 

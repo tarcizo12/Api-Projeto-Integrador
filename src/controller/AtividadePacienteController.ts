@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { HttpStatus } from '../enums/HttpStatus';
+import HttpStatus  from '../enums/HttpStatus';
 import { ErroBodyMensage } from '../model/ErroBodyMensage';
 import { StringUtil } from '../utils/StringUtil';
 import { Parametros } from '../enums/Parametros';
@@ -7,7 +7,9 @@ import { AtividadePacienteService } from '../service/AtividadePacienteService';
 import { AtividadesPacienteInterface } from '../interfaces/AtividadesPacienteInterface';
 
 
-//Classe de implementação dos contratos
+/**
+ * Classe de controlle de aplicacao
+ */
 export class AtividadePacienteController {
     private atividadePacienteService: AtividadesPacienteInterface = new AtividadePacienteService; 
 

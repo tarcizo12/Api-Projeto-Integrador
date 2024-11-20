@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { HttpStatus } from '../enums/HttpStatus';
+import HttpStatus from '../enums/HttpStatus';
 import { ErroBodyMensage } from '../model/ErroBodyMensage'
 import { PsicologoService } from '../service/PsicologoService';
 import { StringUtil } from '../utils/StringUtil';
@@ -7,7 +7,9 @@ import { Parametros } from '../enums/Parametros';
 import { PsicologoServiceInterface } from '../interfaces/PsicologoServiceInterface';
 
 
-//Classe de implementação dos contratos
+/**
+ * Classe de controlle de aplicacao
+ */
 export class PsicologoController{
 
     private psicologoService: PsicologoServiceInterface = new PsicologoService;

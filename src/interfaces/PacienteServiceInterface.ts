@@ -1,6 +1,8 @@
-import { Request, Response } from 'express';
 import { PacienteModel } from '../model/PacienteModel';
 
+/**
+ * Classe de contrato
+ */
 export interface PacienteServiceInterface {
     /**
      * Método para Buscar todos os usuários de perfil "Paciente"

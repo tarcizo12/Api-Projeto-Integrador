@@ -1,13 +1,14 @@
 import { Request, Response } from 'express';
-import { HttpStatus } from '../enums/HttpStatus';
+import  HttpStatus  from '../enums/HttpStatus';
 import { ErroBodyMensage } from '../model/ErroBodyMensage';
 import { StringUtil } from '../utils/StringUtil';
 import { PacienteService } from '../service/PacienteService';
 import { Parametros } from '../enums/Parametros';
 import { PacienteServiceInterface } from '../interfaces/PacienteServiceInterface';
 
-
-//Classe de implementação dos contratos
+/**
+ * Classe de controlle de aplicacao
+ */
 export class PacienteController {
     private pacienteService: PacienteServiceInterface = new PacienteService;
 

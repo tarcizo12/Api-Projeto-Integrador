@@ -1,5 +1,9 @@
 import { AtividadePacienteModel } from '../model/AtividadePacienteModel';
 
+
+/**
+ * Classe de contrato
+ */
 export interface AtividadesPacienteInterface {
     /**
      * Método para Buscar todas as atividades na base de dados

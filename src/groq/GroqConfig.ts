@@ -1,14 +1,18 @@
 import Groq from 'groq-sdk';
 import GroqException from '../exceptions/GroqException';
 import dotenv from 'dotenv';
+import { getEmocoesConcatenadasString } from '../enums/Emocoes';
 
 dotenv.config();
 
 
 const GROQ = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-
-export const analyzeEmotionFromMessage = async (message: string) => {
+/**
+ * Método para realizar a analise da emoção da descricao utilziando a i.a do groq
+ * @return o string da emocao 
+ */
+const obterEmocaoDescricaoAnotacao = async (message: string): Promise<string> => {
     try {
         const emotionAnalysis = await getEmotionAnalysis(message);
         return emotionAnalysis.emotion;
@@ -34,7 +38,7 @@ const getEmotionAnalysis = async (content: string) =>{
                     role: 'user',
                     content: `Determine a emoção transmitida na mensagem e use sempre palavras em português. 
                             Retorne somente a propriedade 'emotion' no formato JSON, com o valor correspondente a uma das 
-                            seguintes emoções: 'Empolgação', 'Excitação', 'Felicidade', 'Tristeza', 'Raiva', 'Medo', 'Surpresa', 'Entusiasmo'. 
+                            seguintes emoções: ${getEmocoesConcatenadasString()}. 
                             Não inclua mais nenhum texto além do JSON com a propriedade 'emotion' devidamente preenchida, e certifique-se de que as chaves de 
                             abertura e fechamento do JSON estejam sempre presentes. Mensagem: "${content}"`,
                 },
@@ -61,7 +65,7 @@ const testeGroq = async (descricaoAnotacao: string): Promise<void> =>{
     try {
         console.log(`Mensagem de teste: "${descricaoAnotacao}"`);
         
-        const emotion = await analyzeEmotionFromMessage(descricaoAnotacao);
+        const emotion = await obterEmocaoDescricaoAnotacao(descricaoAnotacao);
         
         console.log('Análise de emoção retornada:');
         console.log(emotion);
@@ -93,7 +97,7 @@ const TestScenarios = {
 const executarTeste = (): void =>{
     (async () => {
         try {
-            await testeGroq(TestScenarios.OITO);
+            await testeGroq(TestScenarios.UM);
         } catch (error) {
             console.error('Erro ao executar os testes:', error);
         }
@@ -101,5 +105,6 @@ const executarTeste = (): void =>{
 }
 
 
-executarTeste()
+//executarTeste()
 
+export default obterEmocaoDescricaoAnotacao;
