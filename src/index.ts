@@ -1,7 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors'; // Importação do middleware CORS
 import { Endpoints } from './enums/Paths';
-import  Routes from './enums/Routes';
+import Routes from './enums/Routes';
 
 dotenv.config();
 
@@ -18,6 +19,13 @@ class Server {
 
   private initializeMiddlewares(): void {
     this.api.use(express.json());
+
+  
+    this.api.use(cors({
+      origin: ['http://localhost:8081', 'http://192.168.0.5:8081'], 
+      methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+      credentials: true, 
+    }));
   }
 
   private initializeRoutes(): void {
@@ -29,11 +37,13 @@ class Server {
 
   public listen(): void {
     this.api.listen(this.port, () => {
-      console.log(`Servidor rodando na porta ${this.port}`, '\n para testar: curl http://localhost:3000/');
+      console.log(
+        `Servidor rodando na porta ${this.port}`,
+        '\nPara testar: curl http://localhost:3000/'
+      );
     });
   }
 }
-
 
 const server = new Server();
 server.listen();
