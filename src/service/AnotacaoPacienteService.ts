@@ -13,7 +13,7 @@ export class AnotacaoPacienteService implements AnotacaoPacienteInterface{
         try {
             return AnotacaoPacienteModel.findAll({
                 where: { fk_idPaciente },
-                order: [['dhRegistro', 'DESC']] 
+                order: [['idAnotacao', 'DESC']] 
             });
         } catch (error) {
             const errorMessage = (error as { message?: string }).message || 'Erro desconhecido';
