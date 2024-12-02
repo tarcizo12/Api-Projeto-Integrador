@@ -16,7 +16,6 @@ export default class AnotacaoPacienteController {
 
     public async getAnotacaoPorIdPaciente(req: Request, res: Response): Promise<Response> {
         const idPaciente: string = StringUtil.getQueryString(req.query, Parametros.ID_PACIENTE);
-     
         if (!idPaciente) { return this.erroIdPacienteNaoInformado(res)}
 
         return res.status(HttpStatus.OK.code).json(await this.anotacaoPacienteService.listarAntacoesPorIdPaciente(Number(idPaciente)));
@@ -24,7 +23,8 @@ export default class AnotacaoPacienteController {
 
     public async postAnotacao(req: Request, res: Response): Promise<Response> {
         const body: AnotacaoPacienteModel = req.body
-        const idPaciente: number = body.fk_idPaciente
+
+        const idPaciente: number = body._fk_idPaciente
 
         if (!idPaciente) { return this.erroIdPacienteNaoInformado(res)}
         const idAnotacaoRegistrada = await this.anotacaoPacienteService.salvarAnoacaoPaciente(body)

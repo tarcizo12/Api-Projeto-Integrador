@@ -27,9 +27,10 @@ export class AnotacaoPacienteService implements AnotacaoPacienteInterface{
                 descricao: anotacaoParaSalvar.descricao,
                 emocaoEstimada: emocaoGerada,
                 dhRegistro: new Date(), 
-                fk_idPaciente: anotacaoParaSalvar.fk_idPaciente, 
+                fk_idPaciente: anotacaoParaSalvar._fk_idPaciente, 
             });
             
+            console.log("Nova anotacao salva: ", novaAnotacao)
             return novaAnotacao.idAnotacao;
         } catch (error) {
             console.error("Erro ao salvar anotação:", error);
