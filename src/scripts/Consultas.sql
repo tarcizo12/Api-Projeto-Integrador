@@ -7,8 +7,9 @@ SELECT * FROM psicologo;
 SELECT * FROM paciente;
 
 -- Tabela anotacao
-SELECT * FROM anotacao_paciente;
+SELECT * FROM anotacao_paciente WHERE fk_idPaciente =1 ORDER by idAnotacao DESC;
 
+DELETE FROM anotacao_paciente WHERE fk_idPaciente =1;
 -- Tabela atividade paciente
 SELECT * FROM atividade_paciente;
 
