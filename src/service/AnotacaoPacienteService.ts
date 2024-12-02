@@ -11,12 +11,16 @@ export class AnotacaoPacienteService implements AnotacaoPacienteInterface{
     
     listarAntacoesPorIdPaciente(fk_idPaciente: number): Promise<AnotacaoPacienteModel[]> {
         try {
-            return AnotacaoPacienteModel.findAll({where: {fk_idPaciente} });
+            return AnotacaoPacienteModel.findAll({
+                where: { fk_idPaciente },
+                order: [['dhRegistro', 'DESC']] 
+            });
         } catch (error) {
-            const errorMessage = (error as { message?: string }).message || 'erro desconhecido';
-            throw new Error("Não foi possível obter as anotacoes desse paciente" + errorMessage);
+            const errorMessage = (error as { message?: string }).message || 'Erro desconhecido';
+            throw new Error("Não foi possível obter as anotações desse paciente: " + errorMessage);
         }
     }
+    
 
 
     async salvarAnoacaoPaciente(anotacaoParaSalvar: AnotacaoPacienteModel): Promise<number | undefined> {
