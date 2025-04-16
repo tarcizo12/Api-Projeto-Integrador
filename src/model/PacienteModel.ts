@@ -7,6 +7,7 @@ export class PacienteModel extends Model {
     public Data_Nascimento!: Date;
     public cpf!: string;
     public email!: string;
+    public senha!: string;
     public nomeDoResponsavel!: string;
     public telefone!: string;
     public fk_idProfissional!: number;
@@ -34,6 +35,10 @@ PacienteModel.init({
     email: {
         type: DataTypes.STRING(255),
         allowNull: true,
+    },
+    senha: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
     },
     nomeDoResponsavel: {
         type: DataTypes.STRING(255),

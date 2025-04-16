@@ -8,4 +8,6 @@ const sequelize = new Sequelize(process.env.DB_NAME!, process.env.DB_USER!, proc
   dialect: 'mysql',
 });
 
+sequelize.sync();
+
 export default sequelize;

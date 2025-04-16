@@ -7,6 +7,7 @@ export class PsicologoModel extends Model {
     public cpf!: string;
     public crp!: string;
     public email!: string;
+    public senha!: string;
 }
 
 PsicologoModel.init({
@@ -26,11 +27,15 @@ PsicologoModel.init({
     },
     crp: {
         type: DataTypes.STRING(15),
-        allowNull: true,
+        allowNull: false,
     },
     email: {
         type: DataTypes.STRING(255),
-        allowNull: true,
+        allowNull: false,
+    },
+    senha: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
     },
 }, {
     sequelize,
