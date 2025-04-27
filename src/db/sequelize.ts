@@ -15,44 +15,66 @@ const sequelize = new Sequelize({
   logging: console.log
 });
 
-async function executeSqlFile(filePath: string) {
-  try {
-    const sqlContent = fs.readFileSync(filePath, 'utf8');
+const CONFIG = {
+  CRIAR_BANCO: true,       
+  EXECUTAR_CARGA: true    
+};
 
-    const commands = sqlContent
-      .replace(/--.*$/gm, '')  
-      .replace(/\/\*[\s\S]*?\*\//g, '')  
+/**
+ * Executa um arquivo SQL contendo múltiplos comandos
+ * @param caminhoArquivo Caminho completo do arquivo SQL
+ */
+async function executarArquivoSQL(caminhoArquivo: string) {
+  try {
+    const conteudoSQL = fs.readFileSync(caminhoArquivo, 'utf8');
+
+    const comandos = conteudoSQL
+      .replace(/--.*$/gm, '')
+      .replace(/\/\*[\s\S]*?\*\//g, '')
       .split(';')
       .map(cmd => cmd.trim())
       .filter(cmd => cmd.length > 0);
 
-    for (const command of commands) {
-      if (command) {
-        await sequelize.query(command);
+    for (const comando of comandos) {
+      if (comando) {
+        await sequelize.query(comando);
       }
     }
-    console.log(`✅ Script ${path.basename(filePath)} executado com sucesso`);
-  } catch (error) {
-    console.error(`❌ Erro ao executar ${path.basename(filePath)}:`, error);
-    throw error;
+    console.log(`✅ Script ${path.basename(caminhoArquivo)} executado com sucesso`);
+  } catch (erro) {
+    console.error(`❌ Falha ao executar ${path.basename(caminhoArquivo)}:`, erro);
+    throw erro;
   }
 }
 
-async function initializeDatabase() {
+/**
+ * Inicializa o banco de dados conforme configuração
+ */
+async function inicializarBanco() {
   try {
+    // Testa a conexão com o banco
     await sequelize.authenticate();
-    console.log('✅ Conexão com o banco estabelecida');
+    console.log('✅ Conexão com o banco estabelecida com sucesso');
 
-    const scriptsDir = path.join(__dirname, './scripts');
-    await executeSqlFile(path.join(scriptsDir, 'CriarDbMYSQL.sql'));
-    await executeSqlFile(path.join(scriptsDir, 'Cargainicial.sql'));
+    const pastaScripts = path.join(__dirname, './scripts');
 
-  } catch (error) {
-    console.error('❌ Falha na inicialização do banco:', error);
+    if (CONFIG.CRIAR_BANCO) {
+      await executarArquivoSQL(path.join(pastaScripts, 'CriarDbMYSQL.sql'));
+    }
+
+    if (CONFIG.EXECUTAR_CARGA) {
+      await executarArquivoSQL(path.join(pastaScripts, 'Cargainicial.sql'));
+    }
+
+    console.log('🟢 Banco de dados inicializado com sucesso');
+
+  } catch (erro) {
+    console.error('❌ Falha crítica na inicialização do banco:', erro);
     process.exit(1);
   }
 }
 
-initializeDatabase();
+
+inicializarBanco();
 
 export default sequelize;

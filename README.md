@@ -22,7 +22,6 @@ npm install
 ```
 
 ### Scripts
-
 - **Iniciar a API em modo desenvolvimento** (com reinicialização automática):
 
   ```bash
@@ -30,7 +29,7 @@ npm install
   ```
 
 ## Rotas
-Rotas que estão disponíveis na API até o momento estarão salvas no colletions do postman 
+- **Rotas que estão disponíveis na API até o momento estarão salvas no colletions do postman** 
   ```Path
     postman\Api-Projeto-Integrador.postman_collection.json
   ```
@@ -64,6 +63,22 @@ TODO
 TODO
 ```
 
+## Comandos Docker
+# Start all services (detached mode)
+docker-compose up -d
+
+# Stop and remove containers
+docker-compose down
+
+# Rebuild with code changes
+docker-compose up -d --build
+
+# Access MySQL CLI
+docker exec -it mysql-projeto-integrador mysql -u root -p
+Password: root123
+
+# View API logs
+docker logs api-projeto-integrador -f
 
 ## Observações
 - **Ambiente de Desenvolvimento:** Utilize o script `npm run dev` para iniciar o servidor com `nodemon`, que reinicia automaticamente o servidor quando mudanças são detectadas no código.

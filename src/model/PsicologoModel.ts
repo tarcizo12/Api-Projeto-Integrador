@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import sequelize from "../db/sequelize"; // Importe sua conexão com o banco
+import sequelize from "../db/sequelize"; 
 
 export class PsicologoModel extends Model {
     public idProfissional!: number;

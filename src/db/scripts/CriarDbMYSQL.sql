@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS projeto_integrador.Psicologo (
     Nome VARCHAR(255) NOT NULL,
     CPF VARCHAR(11) NOT NULL,
     CRP VARCHAR(15),
-    Email VARCHAR(255)
+    Email VARCHAR(255),
+    Senha VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS projeto_integrador.Paciente (
