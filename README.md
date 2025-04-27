@@ -63,21 +63,21 @@ TODO
 TODO
 ```
 
-## Comandos Docker
-# Start all services (detached mode)
+# Comandos Docker
+### Start all services (detached mode)
 docker-compose up -d
 
-# Stop and remove containers
+### Stop and remove containers
 docker-compose down
 
-# Rebuild with code changes
+### Rebuild with code changes
 docker-compose up -d --build
 
-# Access MySQL CLI
+### Access MySQL CLI
 docker exec -it mysql-projeto-integrador mysql -u root -p
 Password: root123
 
-# View API logs
+### View API logs
 docker logs api-projeto-integrador -f
 
 ## Observações
