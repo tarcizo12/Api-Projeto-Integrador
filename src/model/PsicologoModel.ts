@@ -40,5 +40,6 @@ PsicologoModel.init({
 }, {
     sequelize,
     tableName: 'Psicologo',
-    timestamps: false,  // Adicione esta linha
+    timestamps: false,  
+    freezeTableName: true
 });

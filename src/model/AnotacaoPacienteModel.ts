@@ -36,4 +36,5 @@ AnotacaoPacienteModel.init({
     sequelize,
     tableName: 'Anotacao_Paciente',
     timestamps: false,  
+    freezeTableName: true 
 });

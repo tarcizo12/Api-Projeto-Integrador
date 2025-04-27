@@ -56,4 +56,5 @@ PacienteModel.init({
     sequelize,
     tableName: 'Paciente',
     timestamps: false,  
+    freezeTableName: true 
 });

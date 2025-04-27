@@ -1,9 +1,6 @@
--- Criação do schema apenas se não existir
 CREATE DATABASE IF NOT EXISTS projeto_integrador;
-USE projeto_integrador;
 
--- Tabela Profissional
-CREATE TABLE IF NOT EXISTS Psicologo (
+CREATE TABLE IF NOT EXISTS projeto_integrador.Psicologo (
     idProfissional INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     Nome VARCHAR(255) NOT NULL,
     CPF VARCHAR(11) NOT NULL,
@@ -11,8 +8,7 @@ CREATE TABLE IF NOT EXISTS Psicologo (
     Email VARCHAR(255)
 );
 
--- Tabela Paciente
-CREATE TABLE IF NOT EXISTS Paciente (
+CREATE TABLE IF NOT EXISTS projeto_integrador.Paciente (
     idPaciente INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     Nome VARCHAR(255) NOT NULL,
     Data_Nascimento DATE NOT NULL,
@@ -24,8 +20,7 @@ CREATE TABLE IF NOT EXISTS Paciente (
     FOREIGN KEY (fk_idProfissional) REFERENCES Psicologo(idProfissional)
 );
 
--- Tabela Atividades Paciente
-CREATE TABLE IF NOT EXISTS Atividade_Paciente (
+CREATE TABLE IF NOT EXISTS projeto_integrador.Atividade_Paciente (
     idAtividade INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     Descricao VARCHAR(255),
     NivelDificuldade DECIMAL(2,1),
@@ -35,8 +30,7 @@ CREATE TABLE IF NOT EXISTS Atividade_Paciente (
     FOREIGN KEY (fk_idPaciente) REFERENCES Paciente(idPaciente)
 );
 
--- Tabela Anotações Paciente
-CREATE TABLE IF NOT EXISTS Anotacao_Paciente (
+CREATE TABLE IF NOT EXISTS projeto_integrador.Anotacao_Paciente (
     idAnotacao INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     Descricao VARCHAR(255) NOT NULL,
     EmocaoEstimada VARCHAR(255) NOT NULL,
