@@ -26,6 +26,11 @@ export class PsicologoResource {
       Endpoints.PSICOLOGO.getPsicologoById,
       (req: Request, res: Response) => this.psicologoController.getPsicologoById(req, res)
     );
+
+    this.router.post(
+      Endpoints.PSICOLOGO.vincularPacienteById,
+      (req: Request, res: Response) => this.psicologoController.postVincularClienteById(req, res)
+    );
   }
 
   public getRouter(): Router { return this.router}

@@ -43,4 +43,28 @@ export class PsicologoController{
             return res.status(statusReturn.code).json(ErroBodyMensage.createErrorBody("Erro ao buscar profissionall" , statusReturn.description));
         }
     }
+
+    public async postVincularClienteById(req: Request, res: Response): Promise<Response> {
+        try {
+            const idPacienteParaVincular: number = req.body.idPaciente
+            const idPsicologoLogado: number = req.body.idPsicologoLogado
+
+            if (!idPacienteParaVincular || !idPacienteParaVincular) {
+                return res.status(HttpStatus.BAD_REQUEST.code).json({ message: 'Os IDS para vinculacao devem ser informados' });
+            }
+            const result = await this.psicologoService.criarVinculoComContaPaciente(idPacienteParaVincular, idPsicologoLogado)
+    
+            if(result){
+                return res.status(HttpStatus.OK.code).json({ message: "Vinculo com paciente criado com sucesso!"});
+            }else{
+                throw new Error("Falha ao gerar vinculo com paciente");
+            }
+
+        }catch(error){
+            const statusReturn = HttpStatus.INTERNAL_SERVER_ERROR;
+
+            console.error('Erro ao buscar profissionall', error);
+            return res.status(statusReturn.code).json(ErroBodyMensage.createErrorBody("Erro ao criar vinculo de contas entre Psicologo e Paciente" , statusReturn.description));
+        }
+    }
 }

@@ -11,6 +11,7 @@ export const Endpoints = {
         "basePath" : Routes.PSICOLOGO,
         "getUsuariosPsicologos" :  "/all",
         "getPsicologoById" : "/buscarPsicologo",
+        "vincularPacienteById" : "/vincularPaciente",
     },
     'PACIENTE' : {
         "basePath" : Routes.PACIENTE,

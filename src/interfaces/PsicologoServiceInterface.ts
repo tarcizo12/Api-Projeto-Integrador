@@ -15,4 +15,10 @@ export interface PsicologoServiceInterface {
      * @return Psicologo
      */
     buscarPsicologoById(idPaciente: number): Promise<PsicologoModel>
+
+     /**
+     * Método para vincular Paciente ao psicologo por compartilhamento do ID
+     * @return True em caso de sucesso
+     */
+    criarVinculoComContaPaciente(idPaciente: number, idPsicologoLogado: number): Promise<boolean>
 }
