@@ -29,6 +29,10 @@ export default class AnotacaoPacienteController {
         if (!idPaciente) { return this.erroIdPacienteNaoInformado(res)}
         const idAnotacaoRegistrada = await this.anotacaoPacienteService.salvarAnoacaoPaciente(body)
 
+        if(idAnotacaoRegistrada === undefined){
+            return res.status(HttpStatus.BAD_REQUEST.code).json({ mensagem: "Nao foi possivel gerar novo registro de anotacao"});    
+        }
+
         return res.status(HttpStatus.OK.code).json({ idAnotacaoRegistrada});
     }
     

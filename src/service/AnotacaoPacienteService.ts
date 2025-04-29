@@ -1,6 +1,7 @@
 import { AnotacaoPacienteInterface } from "../interfaces/AnotacaoPacienteInterface";
 import { AnotacaoPacienteModel } from "../model/AnotacaoPacienteModel";
 import obterEmocaoDescricaoAnotacao from '../groq/GroqConfig'
+import { title } from "process";
 
 
 /**
@@ -22,22 +23,25 @@ export class AnotacaoPacienteService implements AnotacaoPacienteInterface{
     }
     
 
-
     async salvarAnoacaoPaciente(anotacaoParaSalvar: AnotacaoPacienteModel): Promise<number | undefined> {
-        const emocaoGerada = (await obterEmocaoDescricaoAnotacao(anotacaoParaSalvar.descricao)).toString()
+        const { titulo, emocaoEstimada } = await obterEmocaoDescricaoAnotacao(anotacaoParaSalvar.descricao);
 
         try {
-            const novaAnotacao = await AnotacaoPacienteModel.create({
+            const objetoParaSalvar = {
                 descricao: anotacaoParaSalvar.descricao,
-                emocaoEstimada: emocaoGerada,
+                emocaoEstimada,
+                titulo,
                 dhRegistro: new Date(), 
                 fk_idPaciente: anotacaoParaSalvar._fk_idPaciente, 
-            });
+            }
+            
+            const novaAnotacao = await AnotacaoPacienteModel.create(objetoParaSalvar);
             
             console.log("Nova anotacao salva: ", novaAnotacao)
             return novaAnotacao.idAnotacao;
         } catch (error) {
             console.error("Erro ao salvar anotação:", error);
+            return undefined;
         }
     }
 

@@ -28,6 +28,11 @@ AnotacaoPacienteModel.init({
         allowNull: false,
         field: `DH_Registro`
     },
+    titulo: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        field: `Titulo`
+    },
     fk_idPaciente: {
         type: DataTypes.INTEGER,
         allowNull: false,

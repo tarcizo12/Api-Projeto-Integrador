@@ -22,11 +22,11 @@ VALUES
 ('Atividade 3 para Ana', 4.5, 'Atividade concluída com sucesso', '2024-10-03', 2);
 
 -- Inserir Anotações para os Pacientes
-INSERT INTO Anotacao_Paciente (Descricao, EmocaoEstimada, DH_Registro, fk_idPaciente)
+INSERT INTO Anotacao_Paciente (Descricao, EmocaoEstimada, DH_Registro, fk_idPaciente, Titulo)
 VALUES 
-('Anotação 1 para Carlos', 'Felicidade', '2024-09-28', 1),
-('Anotação 2 para Carlos', 'Ansiedade', '2024-09-29', 1),
-('Anotação 3 para Carlos', 'Satisfação', '2024-09-30', 1),
-('Anotação 1 para Ana', 'Esperança', '2024-09-28', 2),
-('Anotação 2 para Ana', 'Tristeza', '2024-09-29', 2),
-('Anotação 3 para Ana', 'Alegria', '2024-09-30', 2);
+('Anotação 1 para Carlos', 'Felicidade', '2024-09-28', 1, "Esse é  um dado de teste"),
+('Anotação 2 para Carlos', 'Ansiedade', '2024-09-29', 1 , "Esse é  um dado de teste"),
+('Anotação 3 para Carlos', 'Satisfação', '2024-09-30', 1, "Esse é  um dado de teste"),
+('Anotação 1 para Ana', 'Esperança', '2024-09-28', 2, "Esse é  um dado de teste"),
+('Anotação 2 para Ana', 'Tristeza', '2024-09-29', 2, "Esse é  um dado de teste"),
+('Anotação 3 para Ana', 'Alegria', '2024-09-30', 2, "Esse é  um dado de teste");
