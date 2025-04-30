@@ -1,4 +1,5 @@
 import { AnotacaoPacienteModel } from '../model/AnotacaoPacienteModel';
+import { FiltroAnotacoes } from '../model/FiltroAnotacoes';
 import { PacienteModel } from '../model/PacienteModel';
 
 
@@ -18,5 +19,12 @@ export interface AnotacaoPacienteInterface {
      * @return Sequencial do registro feito
      */
     salvarAnoacaoPaciente(anotacaoParaSalvar: AnotacaoPacienteModel): Promise<number | undefined>;
+
+
+    /**
+     * Método para persistir anotacao feita por p paciente
+     * @return Sequencial do registro feito
+     */
+    consultarAnotacoesComFiltro(filtro: FiltroAnotacoes): Promise<AnotacaoPacienteModel[]>;
 
 }

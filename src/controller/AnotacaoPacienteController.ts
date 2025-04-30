@@ -6,6 +6,7 @@ import { Parametros } from '../enums/Parametros';
 import { AnotacaoPacienteService } from '../service/AnotacaoPacienteService';
 import { AnotacaoPacienteInterface } from '../interfaces/AnotacaoPacienteInterface';
 import { AnotacaoPacienteModel } from '../model/AnotacaoPacienteModel';
+import { FiltroAnotacoes } from '../model/FiltroAnotacoes';
 
 
 /**
@@ -34,6 +35,22 @@ export default class AnotacaoPacienteController {
         }
 
         return res.status(HttpStatus.OK.code).json({ idAnotacaoRegistrada});
+    }
+
+    public async getAnotacoesPorFiltro(req: Request, res: Response): Promise<Response> {
+        try {
+            const filtros: FiltroAnotacoes = req.body.filtros;
+            
+            const anotacoesFiltradas = await this.anotacaoPacienteService.consultarAnotacoesComFiltro(filtros);
+            
+            console.log("registros Filtrados: ", anotacoesFiltradas)
+            return res.status(HttpStatus.OK.code).json("");
+        } catch (error) {
+            const statusReturn = HttpStatus.INTERNAL_SERVER_ERROR;
+
+            console.error('Erro ao buscar pacientes relacionados a esse psicologo:', error);
+            return res.status(statusReturn.code).json(ErroBodyMensage.createErrorBody("Erro ao buscar pacientes desse profissional" , statusReturn.description));
+        }
     }
     
 

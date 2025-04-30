@@ -24,6 +24,11 @@ export class AnotacaoPacienteResource {
       Endpoints.ANOTACOES.postAnotacao,
       (req: Request, res: Response) => this.anotacaoPacienteController.postAnotacao(req, res)
     );
+
+    this.router.post(
+      Endpoints.ANOTACOES.getAnotacoesByFiltros,
+      (req: Request, res: Response) => this.anotacaoPacienteController.getAnotacoesPorFiltro(req, res)
+    );
   }
 
 

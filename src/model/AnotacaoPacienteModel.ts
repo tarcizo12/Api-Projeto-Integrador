@@ -33,6 +33,10 @@ AnotacaoPacienteModel.init({
         allowNull: false,
         field: `Titulo`
     },
+    isVisualizada: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true
+    },
     fk_idPaciente: {
         type: DataTypes.INTEGER,
         allowNull: false,

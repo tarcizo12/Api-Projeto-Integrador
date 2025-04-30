@@ -17,7 +17,7 @@ export const Endpoints = {
         "basePath" : Routes.PACIENTE,
         "getUsuariosPaciente" : "/all",
         "getPacienteById" : "/buscarPaciente",
-        "getPacientesByIdProfissional" : "/buscarPacientePorProfissional"
+        "getPacientesByIdProfissional" : "/buscarPacientePorProfissional",
     },
     'ATIVIDADES' : {
         "basePath" : Routes.ATIVIDADE_PACIENTE,
@@ -28,7 +28,8 @@ export const Endpoints = {
         "basePath" : Routes.ANOTACAO_PACIENTE,
         "getAllAnotacoes" : "/all",
         "getAnotacaoPorIdPaciente" : "/buscarAnotacaoPorIdPaciente",
-        "postAnotacao" : "/registrarAnotacao"
+        "postAnotacao" : "/registrarAnotacao",
+        "getAnotacoesByFiltros" : "/filtrar"
     },
     'TESTES':{
         "pingApi" : "/"
