@@ -35,8 +35,8 @@ services:
         condition: service_healthy
     volumes:
       - .:/usr/src/app
-      - /usr/src/app/node_modules
-    command: sh -c "sleep 15 && npm run dev" 
+      # Removido o volume do node_modules para evitar sobrescrever
+    command: sh -c "sleep 15 && npm run dev"
 
 volumes:
   mysql_data:

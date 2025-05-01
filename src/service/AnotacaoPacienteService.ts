@@ -31,6 +31,10 @@ const montarClausulaWhereFiltro = (filtro: FiltroAnotacoes): WhereOptions => {
         where.isVisualizada = filtro.isVisualizado;
     }
 
+    if (filtro.categorias && filtro.categorias.length > 0) {
+        where.emocaoEstimada = { [Op.in]: filtro.categorias };
+    }
+
     return where;
 };
 

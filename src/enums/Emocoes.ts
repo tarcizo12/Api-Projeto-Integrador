@@ -1,6 +1,6 @@
 enum EMOCOES  {
-    EMPOLGACAO = "Empolgação",
-    EXCITACAO = "Excitação",
+    EMPOLGACAO = "Empolgacao",
+    EXCITACAO = "Excitacao",
     FELICIDADE = "Felicidade",
     TRISTEZA = "Tristeza",
     RAIVA = "Raiva",
