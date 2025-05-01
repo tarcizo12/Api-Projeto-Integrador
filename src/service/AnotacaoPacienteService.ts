@@ -43,6 +43,23 @@ const montarClausulaWhereFiltro = (filtro: FiltroAnotacoes): WhereOptions => {
  */
 export class AnotacaoPacienteService implements AnotacaoPacienteInterface {
 
+    async deletarAnotacoesByIdPaciente(idPaciente: number): Promise<AnotacaoPacienteModel[]> {
+        try {
+            const anotacoes: AnotacaoPacienteModel[] = await AnotacaoPacienteModel.findAll({
+                where: { fk_idPaciente: idPaciente }
+            });
+
+            await AnotacaoPacienteModel.destroy({
+                where: { fk_idPaciente: idPaciente }
+            });
+
+            return anotacoes;
+        } catch (error) {
+            const errorMessage = (error as { message?: string }).message || 'Erro desconhecido';
+            throw new Error("Erro ao deletar anotações do paciente: " + errorMessage);
+        }
+    }
+
 
     async visualizarAnotacao(anotacaoParaVisualizar: VisualizarAnotacaoRequest): Promise<boolean> {
         try {

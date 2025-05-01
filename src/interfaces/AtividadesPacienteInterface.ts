@@ -24,4 +24,10 @@ export interface AtividadesPacienteInterface {
      * @return Todos os pacientes do profissional
      */
     buscarAtividadesByIdPaciente(idPaciente: number): Promise<AtividadePacienteModel[]>;
+
+    /**
+     * Método para deletar as atividades atribuidas ao paciente
+     * @return Registros deletados
+     */
+    deletarAtividadesByIdPaciente(idPaciente: number): Promise<AtividadePacienteModel[]>;
 }

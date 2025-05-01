@@ -18,6 +18,7 @@ export const Endpoints = {
         "getUsuariosPaciente" : "/all",
         "getPacienteById" : "/buscarPaciente",
         "getPacientesByIdProfissional" : "/buscarPacientePorProfissional",
+        "deleteContaPaciente" : "/deletarPacienteById",
     },
     'ATIVIDADES' : {
         "basePath" : Routes.ATIVIDADE_PACIENTE,

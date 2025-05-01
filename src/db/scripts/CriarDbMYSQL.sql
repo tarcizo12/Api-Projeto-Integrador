@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS projeto_integrador.Paciente (
     Email VARCHAR(255),
     NomeDoResponsavel VARCHAR(255),
     Telefone BIGINT,
+    Senha VARCHAR(255),
     fk_idProfissional INT,
     FOREIGN KEY (fk_idProfissional) REFERENCES Psicologo(idProfissional)
 );
@@ -26,7 +27,7 @@ CREATE TABLE IF NOT EXISTS projeto_integrador.Atividade_Paciente (
     Descricao VARCHAR(255),
     NivelDificuldade DECIMAL(2,1),
     ObservacaoAtividade VARCHAR(255),
-    DH_Fimanotacao_paciente DATE,
+    DH_Fim DATE,
     fk_idPaciente INT,
     FOREIGN KEY (fk_idPaciente) REFERENCES Paciente(idPaciente)
 );

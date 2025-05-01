@@ -18,11 +18,42 @@ export class PacienteController {
         } catch (error) {
             const statusReturn = HttpStatus.INTERNAL_SERVER_ERROR;
 
-            console.error('Erro ao buscar psicólogos:', error);
+            console.error('Erro ao buscar pacientes:', error);
             return res.status(statusReturn.code).json(ErroBodyMensage.createErrorBody("Erro ao buscar pacientes", statusReturn.description)); 
         }
     }
- 
+
+    public async deletePacienteById(req: Request, res: Response): Promise<Response> {
+        try {
+            const idPacienteParam = req.query.idPaciente;
+    
+            if (!idPacienteParam) {
+                return res.status(HttpStatus.BAD_REQUEST.code).json(
+                    ErroBodyMensage.createErrorBody("O parâmetro 'idPaciente' é obrigatório.", HttpStatus.BAD_REQUEST.description)
+                );
+            }
+    
+            const idPaciente = Number(idPacienteParam);
+    
+            if (isNaN(idPaciente)) {
+                return res.status(HttpStatus.BAD_REQUEST.code).json(
+                    ErroBodyMensage.createErrorBody("O parâmetro 'idPaciente' deve ser um número.", HttpStatus.BAD_REQUEST.description)
+                );
+            }
+    
+            const pacienteDeletado = await this.pacienteService.deletarPacienteById(idPaciente);
+    
+            return res.status(HttpStatus.OK.code).json({mensagem : `Paciente ${pacienteDeletado.nome} deletado com sucesso`});
+        } catch (error) {
+            const statusReturn = HttpStatus.INTERNAL_SERVER_ERROR;
+    
+            console.error('Erro ao deletar paciente:', error);
+            return res.status(statusReturn.code).json(
+                ErroBodyMensage.createErrorBody("Erro ao deletar paciente", statusReturn.description)
+            );
+        }
+    }
+    
 
     public async getPacienteById(req: Request, res: Response): Promise<Response> {
         try {

@@ -10,6 +10,23 @@ export class AtividadePacienteService implements AtividadesPacienteInterface{
         return AtividadePacienteModel.findAll();
     }
 
+    async deletarAtividadesByIdPaciente(idPaciente: number): Promise<AtividadePacienteModel[]> {
+        try {
+            const atividades: AtividadePacienteModel[] = await AtividadePacienteModel.findAll({
+                where: { fk_idPaciente: idPaciente }
+            });
+
+            await AtividadePacienteModel.destroy({
+                where: { fk_idPaciente: idPaciente }
+            });
+
+            return atividades;
+        } catch (error) {
+            const errorMessage = (error as { message?: string }).message || 'Erro desconhecido';
+            throw new Error("Erro ao deletar atividades do paciente: " + errorMessage);
+        }
+    }
+
     async buscarAtividadeById(idAtividade: number): Promise<AtividadePacienteModel> {
         try {
             const atividade: AtividadePacienteModel | null = await AtividadePacienteModel.findByPk(idAtividade);

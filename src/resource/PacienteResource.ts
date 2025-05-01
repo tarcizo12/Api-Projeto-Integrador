@@ -31,6 +31,11 @@ export class PacienteResource {
       Endpoints.PACIENTE.getPacientesByIdProfissional,
       (req: Request, res: Response) => this.pacienteController.getPacientesPorProfssional(req, res)
     );
+
+    this.router.delete(
+      Endpoints.PACIENTE.deleteContaPaciente,
+      (req: Request, res: Response) => this.pacienteController.deletePacienteById(req, res)
+    );
   }
 
 

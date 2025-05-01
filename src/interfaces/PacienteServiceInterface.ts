@@ -23,4 +23,11 @@ export interface PacienteServiceInterface {
      * @return Todos os pacientes do profissional
      */
     buscarPacientesByIdPsicologo(idPsicologo: number): Promise<PacienteModel[]>;
+
+
+    /**
+     * Método para DELETAR a conta de um paciente por id
+     * @return String nome paciente
+     */
+    deletarPacienteById(idPaciente: number): Promise<PacienteModel>;
 }

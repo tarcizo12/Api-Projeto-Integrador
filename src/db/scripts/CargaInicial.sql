@@ -12,7 +12,7 @@ VALUES
 ('Ana Lima', '1985-09-30', '12345098765', 'ana.lima@exemplo.com', 'Roberto Lima', 11998765432, 1);
 
 -- Inserir Atividades para os Pacientes
-INSERT INTO Atividade_Paciente (Descricao, NivelDificuldade, ObservacaoAtividade, DH_Fimanotacao_paciente, fk_idPaciente)
+INSERT INTO Atividade_Paciente (Descricao, NivelDificuldade, ObservacaoAtividade, DH_Fim, fk_idPaciente)
 VALUES 
 ('Atividade 1 para Carlos', 2.5, 'Conclusão parcial', '2024-10-01', 1),
 ('Atividade 2 para Carlos', 3.0, 'Desenvolvimento em progresso', '2024-10-02', 1),
