@@ -43,8 +43,7 @@ export default class AnotacaoPacienteController {
             
             const anotacoesFiltradas = await this.anotacaoPacienteService.consultarAnotacoesComFiltro(filtros);
             
-            console.log("registros Filtrados: ", anotacoesFiltradas)
-            return res.status(HttpStatus.OK.code).json("");
+            return res.status(HttpStatus.OK.code).json(anotacoesFiltradas);
         } catch (error) {
             const statusReturn = HttpStatus.INTERNAL_SERVER_ERROR;
 

@@ -3,6 +3,7 @@ import { AnotacaoPacienteInterface } from "../interfaces/AnotacaoPacienteInterfa
 import { AnotacaoPacienteModel } from "../model/AnotacaoPacienteModel";
 import obterEmocaoDescricaoAnotacao from '../groq/GroqConfig';
 import { FiltroAnotacoes } from "../model/FiltroAnotacoes";
+import { parse } from 'date-fns';
 
 /**
  * Gera a cláusula where com base nos filtros recebidos
@@ -12,18 +13,18 @@ const montarClausulaWhereFiltro = (filtro: FiltroAnotacoes): WhereOptions => {
         fk_idPaciente: filtro.idPaciente
     };
 
+    const formatoData = 'd/M/yyyy'; 
+
     if (filtro.dtInicio && filtro.dtFim) {
-        where.dhRegistro = {
-            [Op.between]: [new Date(filtro.dtInicio), new Date(filtro.dtFim)]
-        };
+        const inicio = parse(filtro.dtInicio, formatoData, new Date());
+        const fim = parse(filtro.dtFim, formatoData, new Date());
+        where.dhRegistro = { [Op.between]: [inicio, fim] };
     } else if (filtro.dtInicio) {
-        where.dhRegistro = {
-            [Op.gte]: new Date(filtro.dtInicio)
-        };
+        const inicio = parse(filtro.dtInicio, formatoData, new Date());
+        where.dhRegistro = { [Op.gte]: inicio };
     } else if (filtro.dtFim) {
-        where.dhRegistro = {
-            [Op.lte]: new Date(filtro.dtFim)
-        };
+        const fim = parse(filtro.dtFim, formatoData, new Date());
+        where.dhRegistro = { [Op.lte]: fim };
     }
 
     if (typeof filtro.isVisualizado === 'boolean') {
@@ -31,7 +32,7 @@ const montarClausulaWhereFiltro = (filtro: FiltroAnotacoes): WhereOptions => {
     }
 
     return where;
-}
+};
 
 /**
  * Classe de implementação dos contratos
