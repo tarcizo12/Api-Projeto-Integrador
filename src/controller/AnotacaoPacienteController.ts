@@ -7,7 +7,7 @@ import { AnotacaoPacienteService } from '../service/AnotacaoPacienteService';
 import { AnotacaoPacienteInterface } from '../interfaces/AnotacaoPacienteInterface';
 import { AnotacaoPacienteModel } from '../model/AnotacaoPacienteModel';
 import { FiltroAnotacoes } from '../model/FiltroAnotacoes';
-
+import {VisualizarAnotacaoRequest} from '../model/VisualizarAnotacaoRequest';
 
 /**
  * Classe de controlle de aplicacao
@@ -17,7 +17,7 @@ export default class AnotacaoPacienteController {
 
     public async getAnotacaoPorIdPaciente(req: Request, res: Response): Promise<Response> {
         const idPaciente: string = StringUtil.getQueryString(req.query, Parametros.ID_PACIENTE);
-        if (!idPaciente) { return this.erroIdPacienteNaoInformado(res)}
+        if (!idPaciente) { return this.erroIdAnotacaoNaoInformado(res)}
 
         return res.status(HttpStatus.OK.code).json(await this.anotacaoPacienteService.listarAntacoesPorIdPaciente(Number(idPaciente)));
     }
@@ -27,7 +27,7 @@ export default class AnotacaoPacienteController {
 
         const idPaciente: number = body._fk_idPaciente
 
-        if (!idPaciente) { return this.erroIdPacienteNaoInformado(res)}
+        if (!idPaciente) { return this.erroIdAnotacaoNaoInformado(res)}
         const idAnotacaoRegistrada = await this.anotacaoPacienteService.salvarAnoacaoPaciente(body)
 
         if(idAnotacaoRegistrada === undefined){
@@ -35,6 +35,19 @@ export default class AnotacaoPacienteController {
         }
 
         return res.status(HttpStatus.OK.code).json({ idAnotacaoRegistrada});
+    }
+
+    public async visualizarAnotacao(req: Request, res: Response): Promise<Response> {
+        const body: VisualizarAnotacaoRequest = req.body
+
+        if (!body.idAnotacao) { return this.erroIdAnotacaoNaoInformado(res)}
+        const resultsIsComSucesso = this.anotacaoPacienteService.visualizarAnotacao(body)
+
+        if(!resultsIsComSucesso){
+            return res.status(HttpStatus.BAD_REQUEST.code).json({ mensagem: "Nao foi possivel atualizar anotacao para visualizada, id: " + body.idAnotacao});    
+        }
+
+        return res.status(HttpStatus.OK.code).json({ mensagem: "Registro atualizado, id: " + body.idAnotacao});
     }
 
     public async getAnotacoesPorFiltro(req: Request, res: Response): Promise<Response> {
@@ -53,7 +66,7 @@ export default class AnotacaoPacienteController {
     }
     
 
-    private erroIdPacienteNaoInformado = (res: Response) => {
+    private erroIdAnotacaoNaoInformado = (res: Response) => {
         
         return res.status(HttpStatus.BAD_REQUEST.code).json(ErroBodyMensage.createErrorBody("Erro ao buscar anotacao", "Id do paciente obrigatorio"));   
     }

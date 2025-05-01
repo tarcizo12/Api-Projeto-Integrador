@@ -4,7 +4,7 @@ import { AnotacaoPacienteModel } from "../model/AnotacaoPacienteModel";
 import obterEmocaoDescricaoAnotacao from '../groq/GroqConfig';
 import { FiltroAnotacoes } from "../model/FiltroAnotacoes";
 import { parse } from 'date-fns';
-
+import {VisualizarAnotacaoRequest} from '../model/VisualizarAnotacaoRequest'
 /**
  * Gera a cláusula where com base nos filtros recebidos
  */
@@ -42,6 +42,23 @@ const montarClausulaWhereFiltro = (filtro: FiltroAnotacoes): WhereOptions => {
  * Classe de implementação dos contratos
  */
 export class AnotacaoPacienteService implements AnotacaoPacienteInterface {
+
+
+    async visualizarAnotacao(anotacaoParaVisualizar: VisualizarAnotacaoRequest): Promise<boolean> {
+        try {
+            const [linhasAtualizadas] = await AnotacaoPacienteModel.update(
+                { isVisualizada: anotacaoParaVisualizar.isVisualizada ? 1 : 0 },
+                { where: { idAnotacao: anotacaoParaVisualizar.idAnotacao } }
+            );
+            
+            console.log("Anotacoes atualizadas para visualizadas : ", linhasAtualizadas)
+            return true;
+        } catch (error) {
+            const errorMessage = (error as { message?: string }).message || 'Erro desconhecido';
+            throw new Error("Erro ao atualizar anotação: " + errorMessage);
+        }
+    }
+
 
     consultarAnotacoesComFiltro(filtro: FiltroAnotacoes): Promise<AnotacaoPacienteModel[]> {
         try {

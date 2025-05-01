@@ -29,7 +29,8 @@ export const Endpoints = {
         "getAllAnotacoes" : "/all",
         "getAnotacaoPorIdPaciente" : "/buscarAnotacaoPorIdPaciente",
         "postAnotacao" : "/registrarAnotacao",
-        "getAnotacoesByFiltros" : "/filtrar"
+        "getAnotacoesByFiltros" : "/filtrar",
+        "postVisualizarAnotacao" : "/anotacaoVisualizada"
     },
     'TESTES':{
         "pingApi" : "/"
