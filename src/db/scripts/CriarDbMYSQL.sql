@@ -5,8 +5,8 @@ CREATE TABLE IF NOT EXISTS projeto_integrador.Psicologo (
     Nome VARCHAR(255) NOT NULL,
     CPF VARCHAR(11) NOT NULL,
     CRP VARCHAR(15),
-    Email VARCHAR(255),
-    Senha VARCHAR(255)
+    Email VARCHAR(255) NOT NULL UNIQUE ,
+    Senha VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS projeto_integrador.Paciente (
@@ -14,10 +14,10 @@ CREATE TABLE IF NOT EXISTS projeto_integrador.Paciente (
     Nome VARCHAR(255) NOT NULL,
     Data_Nascimento DATE NOT NULL,
     CPF VARCHAR(11) NOT NULL,
-    Email VARCHAR(255),
+    Email VARCHAR(255) NOT NULL UNIQUE ,
     NomeDoResponsavel VARCHAR(255),
     Telefone BIGINT,
-    Senha VARCHAR(255),
+    Senha VARCHAR(255) NOT NULL,
     fk_idProfissional INT,
     FOREIGN KEY (fk_idProfissional) REFERENCES Psicologo(idProfissional)
 );

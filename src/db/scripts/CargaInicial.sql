@@ -1,15 +1,15 @@
 USE projeto_integrador;
 
 -- Inserir Psicólogo
-INSERT INTO Psicologo (Nome, CPF, CRP, Email)
+INSERT INTO Psicologo (Nome, CPF, CRP, Email, Senha)
 VALUES 
-('Dr. João Silva', '12345678901', 'CRP-12345', 'joao.silva@exemplo.com');
+('Dr. João Silva', '12345678901', 'CRP-12345', 'joao.silva@exemplo.com', "123456");
 
 -- Inserir Pacientes
-INSERT INTO Paciente (Nome, Data_Nascimento, CPF, Email, NomeDoResponsavel, Telefone, fk_idProfissional)
+INSERT INTO Paciente (Nome, Data_Nascimento, CPF, Email, NomeDoResponsavel, Telefone, fk_idProfissional, Senha)
 VALUES 
-('Carlos Souza', '1990-05-15', '98765432100', 'carlos.souza@exemplo.com', 'Maria Souza', 11987654321, 1),
-('Ana Lima', '1985-09-30', '12345098765', 'ana.lima@exemplo.com', 'Roberto Lima', 11998765432, 1);
+('Carlos Souza', '1990-05-15', '98765432100', 'carlos.souza@exemplo.com', 'Maria Souza', 11987654321, 1, "1234"),
+('Ana Lima', '1985-09-30', '12345098765', 'ana.lima@exemplo.com', 'Roberto Lima', 11998765432, 1, "1234");
 
 -- Inserir Atividades para os Pacientes
 INSERT INTO Atividade_Paciente (Descricao, NivelDificuldade, ObservacaoAtividade, DH_Fim, fk_idPaciente)

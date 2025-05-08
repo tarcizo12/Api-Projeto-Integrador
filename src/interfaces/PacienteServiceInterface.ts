@@ -30,4 +30,5 @@ export interface PacienteServiceInterface {
      * @return String nome paciente
      */
     deletarPacienteById(idPaciente: number): Promise<PacienteModel>;
+    
 }

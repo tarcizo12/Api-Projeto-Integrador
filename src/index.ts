@@ -20,12 +20,18 @@ class Server {
   private initializeMiddlewares(): void {
     this.api.use(express.json());
 
-  
-    this.api.use(cors({
-      origin: ['http://localhost:8081', 'http://192.168.0.5:8081'], 
-      methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-      credentials: true, 
-    }));
+    const allowedOrigins = [
+      process.env.LOCALHOST_ADDRESS_FRONTEND,
+      process.env.ANDROID_STUDIO_ADDRESS_FRONTEND,
+    ].filter(Boolean) as string[];
+
+    this.api.use(
+      cors({
+        origin: allowedOrigins,
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        credentials: true,
+      })
+    );
   }
 
   private initializeRoutes(): void {
@@ -33,6 +39,7 @@ class Server {
     this.api.use(Endpoints.PACIENTE.basePath, Routes.PacienteRouter);
     this.api.use(Endpoints.ATIVIDADES.basePath, Routes.AtividadePacienteResource);
     this.api.use(Endpoints.ANOTACOES.basePath, Routes.AnotacaoPacienteResource);
+    this.api.use(Endpoints.LOGIN.basePath, Routes.LoginResource);
   }
 
   public listen(): void {

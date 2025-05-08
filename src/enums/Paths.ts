@@ -3,7 +3,8 @@ enum Routes{
     PSICOLOGO = "/psicologo",
     PACIENTE = "/paciente",
     ATIVIDADE_PACIENTE = "/atividade",
-    ANOTACAO_PACIENTE  = "/anotacao"
+    ANOTACAO_PACIENTE  = "/anotacao",
+    LOGIN  = "/login"
 }
 
 export const Endpoints = {
@@ -32,6 +33,10 @@ export const Endpoints = {
         "postAnotacao" : "/registrarAnotacao",
         "getAnotacoesByFiltros" : "/filtrar",
         "postVisualizarAnotacao" : "/anotacaoVisualizada"
+    },
+    'LOGIN':{
+        "basePath" : Routes.LOGIN,
+        "realizarLogin" : "/"
     },
     'TESTES':{
         "pingApi" : "/"
