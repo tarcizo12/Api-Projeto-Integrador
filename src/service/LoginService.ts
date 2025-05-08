@@ -25,6 +25,8 @@ export class LoginService implements LoginInterface{
             
             const usuarioInformouSenhaCorreta = registroLocalizado?.senha === requestLogin?.senha
 
+            console.log("Usuario tentando realizar login: ", requestLogin)
+
             if(usuarioInformouSenhaCorreta){
                 const usuarioLogadoInf : UsuarioLogado = {
                     isPsicologo : registroPsicologoLocalizado !== null,
@@ -40,7 +42,7 @@ export class LoginService implements LoginInterface{
                 isPaciente : null,
                 usuarioLogadoData: null
             };
-            
+
         } catch (error) {
             const errorMessage = (error as { message?: string }).message || 'erro desconhecido';
             throw new Error("Não foi possível obter psicologo por ID: " + errorMessage);

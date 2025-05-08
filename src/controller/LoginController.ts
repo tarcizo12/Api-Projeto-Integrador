@@ -24,7 +24,7 @@ export class LoginController{
             if(isLoginRealizadoComSucesso){
                 return res.status(HttpStatus.OK.code).json({ message: "Usuario logado com sucesso", data});
             }else{
-                return res.status(HttpStatus.BAD_REQUEST.code).json({ message: "Falha ao realizar login, verifique email e senha."});
+                return res.status(HttpStatus.BAD_REQUEST.code).json("Falha ao realizar login, verifique email e senha.");
             }
         }catch(error){
             const statusReturn = HttpStatus.INTERNAL_SERVER_ERROR;
