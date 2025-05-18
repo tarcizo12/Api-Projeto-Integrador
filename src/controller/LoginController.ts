@@ -36,6 +36,7 @@ export class LoginController{
 
     public async postCadastroNovoUsuario(req: Request, res: Response): Promise<Response> {
         try {
+            console.log("Chegou requisicao")
             const novoUsuarioPayload : UserPayload = req.body;
             const usuarioCadastrado : UsuarioLogado = await this.loginService.realizarCadastroNovoUsuario(novoUsuarioPayload);
 

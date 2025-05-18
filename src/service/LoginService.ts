@@ -67,9 +67,11 @@ export class LoginService implements LoginInterface{
 
             const registroLocalizado = registroPacienteLocalizado ? registroPacienteLocalizado : registroPsicologoLocalizado
             
+            
             const usuarioInformouSenhaCorreta = registroLocalizado?.senha === requestLogin?.senha
 
             console.log("Usuario tentando realizar login: ", requestLogin)
+           
 
             if(usuarioInformouSenhaCorreta){
                 const usuarioLogadoInf : UsuarioLogado = {
@@ -77,7 +79,7 @@ export class LoginService implements LoginInterface{
                     isPaciente : registroPacienteLocalizado !== null,
                     usuarioLogadoData: registroLocalizado
                 };
-
+                
                 return usuarioLogadoInf;
             }
 
