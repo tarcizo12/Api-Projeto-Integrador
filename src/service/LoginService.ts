@@ -31,19 +31,14 @@ export class LoginService implements LoginInterface{
             const senha =  requestCadastro.password;
             const telefone = requestCadastro.phone || null
             const cpf = requestCadastro.cpf;
-    
+            const informacoesBasicas = { nome, email, senha, telefone, cpf }
+            const informacoePsicologo = { dataNascimento: requestCadastro.birthDate, crp: requestCadastro.crp}
+            const informacoesPaciente = { Data_Nascimento: requestCadastro.birthDate, fk_idProfissional: requestCadastro.codigoPsicologoIndicador, }
+
             if (isPsicologo) {
-                novoUsuario = await PsicologoModel.create({
-                    nome, email, senha, telefone, cpf,
-                    dataNascimento: requestCadastro.birthDate,
-                    crp: requestCadastro.crp
-                });
+                novoUsuario = await PsicologoModel.create({ ...informacoesBasicas, ...informacoePsicologo });
             } else {
-                novoUsuario = await PacienteModel.create({
-                    nome, email, senha, telefone, cpf,
-                    Data_Nascimento: requestCadastro.birthDate,
-                    fk_idProfissional: requestCadastro.codigoPsicologoIndicador,
-                });
+                novoUsuario = await PacienteModel.create({ ...informacoesBasicas, ...informacoesPaciente });
             }
     
             const usuarioLogado: UsuarioLogado = {
