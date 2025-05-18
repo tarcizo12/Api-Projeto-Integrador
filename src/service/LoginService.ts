@@ -23,31 +23,27 @@ export class LoginService implements LoginInterface{
             }
     
             let novoUsuario;
-            let isPsicologo = false;
-            let isPaciente = false;
+            let isPsicologo = requestCadastro.isPsychologist;
+            let isPaciente = !requestCadastro.isPsychologist;
+
+            const nome = requestCadastro.name;
+            const email =  requestCadastro.email;
+            const senha =  requestCadastro.password;
+            const telefone = requestCadastro.phone || null
+            const cpf = requestCadastro.cpf;
     
-            if (requestCadastro.isPsychologist) {
+            if (isPsicologo) {
                 novoUsuario = await PsicologoModel.create({
-                    nome: requestCadastro.name,
-                    email: requestCadastro.email,
-                    senha: requestCadastro.password,
-                    telefone: requestCadastro.phone || null,
+                    nome, email, senha, telefone, cpf,
                     dataNascimento: requestCadastro.birthDate,
-                    crp: requestCadastro.crp,
-                    cpf: "06559757307"
+                    crp: requestCadastro.crp
                 });
-                isPsicologo = true;
             } else {
                 novoUsuario = await PacienteModel.create({
-                    nome: requestCadastro.name,
-                    email: requestCadastro.email,
-                    senha: requestCadastro.password,
-                    telefone: requestCadastro.phone || null,
+                    nome, email, senha, telefone, cpf,
                     Data_Nascimento: requestCadastro.birthDate,
                     fk_idProfissional: requestCadastro.codigoPsicologoIndicador,
-                    cpf: "06559757307"
                 });
-                isPaciente = true;
             }
     
             const usuarioLogado: UsuarioLogado = {
