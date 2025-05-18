@@ -43,7 +43,9 @@ export class LoginService implements LoginInterface{
                     email: requestCadastro.email,
                     senha: requestCadastro.password,
                     telefone: requestCadastro.phone || null,
-                    dataNascimento: requestCadastro.birthDate,
+                    Data_Nascimento: requestCadastro.birthDate,
+                    fk_idProfissional: requestCadastro.codigoPsicologoIndicador,
+                    cpf: "06559757307"
                 });
                 isPaciente = true;
             }

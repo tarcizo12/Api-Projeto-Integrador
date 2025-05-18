@@ -6,6 +6,7 @@ type UserPayload = {
     birthDate: string;
     isPsychologist: boolean;
     crp?: string;
+    codigoPsicologoIndicador?: number;
 };
 
 export default UserPayload;
