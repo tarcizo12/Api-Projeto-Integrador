@@ -36,7 +36,8 @@ export const Endpoints = {
     },
     'LOGIN':{
         "basePath" : Routes.LOGIN,
-        "realizarLogin" : "/"
+        "realizarLogin" : "/login",
+        "realizarCadastro" : "/cadastrar"
     },
     'TESTES':{
         "pingApi" : "/"

@@ -17,11 +17,16 @@ export class LoginResource {
    * Inicializa as rotas associadas aos recursos do logoin.
    */
   private initializeRoutes(): void {
+    
     this.router.post(
       Endpoints.LOGIN.realizarLogin,
       (req: Request, res: Response) => this.loginController.postLoginUsuario(req, res)
     );
-
+    
+    this.router.post(
+      Endpoints.LOGIN.realizarCadastro,
+      (req: Request, res: Response) => this.loginController.postCadastroNovoUsuario(req, res)
+    );
   }
 
   public getRouter(): Router { return this.router}
