@@ -32,7 +32,8 @@ export const Endpoints = {
         "getAnotacaoPorIdPaciente" : "/buscarAnotacaoPorIdPaciente",
         "postAnotacao" : "/registrarAnotacao",
         "getAnotacoesByFiltros" : "/filtrar",
-        "postVisualizarAnotacao" : "/anotacaoVisualizada"
+        "postVisualizarAnotacao" : "/anotacaoVisualizada",
+        "getTituloAnotacao": "/obterTitulo"
     },
     'LOGIN':{
         "basePath" : Routes.LOGIN,

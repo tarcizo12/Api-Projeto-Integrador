@@ -51,6 +51,15 @@ export default class AnotacaoPacienteController {
         return res.status(HttpStatus.OK.code).json({ mensagem: "Registro atualizado, id: " + body.idAnotacao});
     }
 
+    public async getTituloAnotacaoByDescricao(req: Request, res: Response): Promise<Response> {
+        const descricao = req.query.descricao as string;
+
+        console.log("parametros: ", descricao)
+        const tituloGerado : string = await this.anotacaoPacienteService.obterTituloAnotacaoPorIA(descricao)
+
+        return res.status(HttpStatus.OK.code).json({ tituloGerado });
+    }
+
     public async getAnotacoesPorFiltro(req: Request, res: Response): Promise<Response> {
         try {
             const filtros: FiltroAnotacoes = req.body.filtros;

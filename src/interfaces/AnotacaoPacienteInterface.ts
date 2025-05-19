@@ -40,4 +40,10 @@ export interface AnotacaoPacienteInterface {
      * @return Registros deletados
      */
     deletarAnotacoesByIdPaciente(idPaciente: number): Promise<AnotacaoPacienteModel[]>;
+
+    /**
+     * Método para retornar o titulo da anotacao com IA
+     * @return string do titulo
+     */
+    obterTituloAnotacaoPorIA(descricao : string): Promise<string>;
 }

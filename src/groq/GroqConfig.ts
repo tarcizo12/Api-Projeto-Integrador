@@ -16,9 +16,31 @@ const GROQ = new Groq({ apiKey: process.env.GROQ_API_KEY });
 const obterEmocaoDescricaoAnotacao = async (message: string): Promise<ValoresProcessadosGroq> => {
     try {
         const emotionAnalysis = await getEmotionAnalysis(message);
-        const tituloAnalysis = await getTituloAnotacao(message);
     
-        return {titulo: tituloAnalysis.title , emocaoEstimada: emotionAnalysis.emotion};
+        return {titulo: "", emocaoEstimada: emotionAnalysis.emotion};
+    } catch (err) {
+        
+        const error = err instanceof Error ? err : new Error(String(err));
+
+        console.error('Erro ao analisar a emoção:', error.message);
+
+        throw new GroqException(
+            'Ocorreu um erro inesperado.',
+            'UNKNOWN_ERROR',
+            { originalError: error.message }
+        );
+    }
+}
+
+/**
+ * Método para realizar a analise da descricao da anotacao por IA
+ * @return o string do titulo
+ */
+const obterTituloAnotacao = async (descricao: string): Promise<ValoresProcessadosGroq> => {
+    try {
+        const tituloAnalysis = await getTituloAnotacao(descricao);
+    
+        return {titulo: tituloAnalysis.title , emocaoEstimada: ""};
     } catch (err) {
         
         const error = err instanceof Error ? err : new Error(String(err));
@@ -143,4 +165,4 @@ const executarTeste = (): void =>{
 
 //executarTeste()
 
-export default obterEmocaoDescricaoAnotacao;
+export {obterEmocaoDescricaoAnotacao , obterTituloAnotacao};

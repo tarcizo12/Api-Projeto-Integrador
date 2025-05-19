@@ -1,7 +1,7 @@
 import { Op, WhereOptions } from 'sequelize';
 import { AnotacaoPacienteInterface } from "../interfaces/AnotacaoPacienteInterface";
 import { AnotacaoPacienteModel } from "../model/AnotacaoPacienteModel";
-import obterEmocaoDescricaoAnotacao from '../groq/GroqConfig';
+import {obterEmocaoDescricaoAnotacao, obterTituloAnotacao} from '../groq/GroqConfig';
 import { FiltroAnotacoes } from "../model/FiltroAnotacoes";
 import { parse } from 'date-fns';
 import {VisualizarAnotacaoRequest} from '../model/VisualizarAnotacaoRequest'
@@ -104,24 +104,29 @@ export class AnotacaoPacienteService implements AnotacaoPacienteInterface {
     }
 
     async salvarAnoacaoPaciente(anotacaoParaSalvar: AnotacaoPacienteModel): Promise<number | undefined> {
-        const { titulo, emocaoEstimada } = await obterEmocaoDescricaoAnotacao(anotacaoParaSalvar.descricao);
+        const { emocaoEstimada } = await obterEmocaoDescricaoAnotacao(anotacaoParaSalvar.descricao);
 
         try {
             const objetoParaSalvar = {
                 descricao: anotacaoParaSalvar.descricao,
                 emocaoEstimada,
-                titulo,
+                titulo: anotacaoParaSalvar.titulo,
                 dhRegistro: new Date(),
                 fk_idPaciente: anotacaoParaSalvar._fk_idPaciente,
             }
 
             const novaAnotacao = await AnotacaoPacienteModel.create(objetoParaSalvar);
 
-            console.log("Nova anotacao salva: ", novaAnotacao)
             return novaAnotacao.idAnotacao;
         } catch (error) {
             console.error("Erro ao salvar anotação:", error);
             return undefined;
         }
+    }
+
+    async obterTituloAnotacaoPorIA(descricao : string): Promise<string> {
+        const { titulo } = await obterTituloAnotacao(descricao);
+
+        return titulo
     }
 }
