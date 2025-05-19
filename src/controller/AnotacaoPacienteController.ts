@@ -34,7 +34,8 @@ export default class AnotacaoPacienteController {
             return res.status(HttpStatus.BAD_REQUEST.code).json({ mensagem: "Nao foi possivel gerar novo registro de anotacao"});    
         }
 
-        return res.status(HttpStatus.OK.code).json({ idAnotacaoRegistrada});
+        console.log("id salvo: ", idAnotacaoRegistrada)
+        return res.status(HttpStatus.OK.code).json({ idAnotacao: idAnotacaoRegistrada});
     }
 
     public async visualizarAnotacao(req: Request, res: Response): Promise<Response> {
