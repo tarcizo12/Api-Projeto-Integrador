@@ -5,23 +5,34 @@ import path from 'path';
 
 dotenv.config();
 
-const sequelize = new Sequelize({
-  database: process.env.DB_NAME,
-  username: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  host: process.env.DB_HOST,
-  port: parseInt(process.env.DB_PORT || '3306'),
-  dialect: 'mysql',
-  logging: console.log
+const DATABASE_URL = process.env.DATABASE_URL;
+
+if (!DATABASE_URL) {
+  console.error('❌ ERRO CRÍTICO: Variável de ambiente DATABASE_URL não definida.');
+  console.error('Por favor, defina DATABASE_URL no seu arquivo .env ou nas variáveis de ambiente do Render.');
+  process.exit(1);
+}
+
+const sequelize = new Sequelize(DATABASE_URL, {
+  dialect: 'postgres',
+  logging: console.log,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  },
 });
 
 const CONFIG = {
   CRIAR_BANCO: true,       
-  EXECUTAR_CARGA: false    
+  EXECUTAR_CARGA: true    
 };
 
 /**
- * Executa um arquivo SQL contendo múltiplos comandos
+ * Executa um arquivo SQL contendo múltiplos comandos.
+ * NÃO USA TRANSAÇÕES EXPLÍCITAS aqui, pois DDLs (CREATE TABLE)
+ * se beneficiam de autocommit para serem visíveis imediatamente.
  * @param caminhoArquivo Caminho completo do arquivo SQL
  */
 async function executarArquivoSQL(caminhoArquivo: string) {
@@ -29,51 +40,63 @@ async function executarArquivoSQL(caminhoArquivo: string) {
     const conteudoSQL = fs.readFileSync(caminhoArquivo, 'utf8');
 
     const comandos = conteudoSQL
-      .replace(/--.*$/gm, '')
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .split(';')
-      .map(cmd => cmd.trim())
-      .filter(cmd => cmd.length > 0);
+      .replace(/--.*$/gm, '')           
+      .replace(/\/\*[\s\S]*?\*\//g, '')  
+      .split(';')                       
+      .map(cmd => cmd.trim())           
+      .filter(cmd => cmd.length > 0);   
 
     for (const comando of comandos) {
       if (comando) {
-        await sequelize.query(comando);
+        // Executa a query sem uma transação explícita.
+        // O PostgreSQL autocommit DDLs, garantindo que as tabelas sejam visíveis.
+        await sequelize.query(comando); 
       }
     }
     console.log(`✅ Script ${path.basename(caminhoArquivo)} executado com sucesso`);
-  } catch (erro) {
+  } catch (erro: unknown) {
     console.error(`❌ Falha ao executar ${path.basename(caminhoArquivo)}:`, erro);
-    throw erro;
+    throw erro; 
   }
 }
 
-/**
- * Inicializa o banco de dados conforme configuração
- */
 async function inicializarBanco() {
   try {
-    // Testa a conexão com o banco
     await sequelize.authenticate();
     console.log('✅ Conexão com o banco estabelecida com sucesso');
 
     const pastaScripts = path.join(__dirname, './scripts');
 
     if (CONFIG.CRIAR_BANCO) {
-      await executarArquivoSQL(path.join(pastaScripts, 'CriarDbMYSQL.sql'));
+      // Este script cria as tabelas. Deve ser executado e commitado antes dos INSERTs.
+      await executarArquivoSQL(path.join(pastaScripts, 'CriarDbPostgres.sql'));
+      // Opcional: Pequeno atraso para garantir que o BD internalize a criação
+      // await new Promise(resolve => setTimeout(resolve, 100)); 
     }
 
     if (CONFIG.EXECUTAR_CARGA) {
+      // Este script insere os dados.
       await executarArquivoSQL(path.join(pastaScripts, 'Cargainicial.sql'));
     }
 
     console.log('🟢 Banco de dados inicializado com sucesso');
 
-  } catch (erro) {
+  } catch (erro: unknown) {
     console.error('❌ Falha crítica na inicialização do banco:', erro);
+    
+    if (erro instanceof Error) {
+      if ('parent' in erro && erro.parent instanceof Error) {
+        console.error('Detalhes do erro original (parent):', erro.parent.message);
+        console.error('SQL que causou o erro:', (erro as any).sql); 
+      }
+      console.error('Mensagem do erro:', erro.message);
+    } else {
+      console.error('Erro desconhecido:', erro);
+    }
+    
     process.exit(1);
   }
 }
-
 
 inicializarBanco();
 

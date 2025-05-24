@@ -23,6 +23,7 @@
     "groq-sdk": "^0.8.0",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.3",
+    "pg": "^8.16.0",
     "sequelize": "^6.37.4",
     "sequelize-typescript": "^2.1.6",
     "ts-node": "^10.9.2",

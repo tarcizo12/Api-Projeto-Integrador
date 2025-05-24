@@ -23,14 +23,15 @@ export class LoginService implements LoginInterface{
             }
     
             let novoUsuario;
-            let isPsicologo = requestCadastro.isPsychologist;
-            let isPaciente = !requestCadastro.isPsychologist;
+            const isPsicologo = requestCadastro.isPsychologist;
+            const isPaciente = !requestCadastro.isPsychologist;
 
             const nome = requestCadastro.name;
             const email =  requestCadastro.email;
             const senha =  requestCadastro.password;
             const telefone = requestCadastro.phone || null
             const cpf = requestCadastro.cpf;
+            console.log("senha: ", senha)
             const informacoesBasicas = { nome, email, senha, telefone, cpf }
             const informacoePsicologo = { dataNascimento: requestCadastro.birthDate, crp: requestCadastro.crp}
             const informacoesPaciente = { Data_Nascimento: requestCadastro.birthDate, fk_idProfissional: requestCadastro.codigoPsicologoIndicador, }
