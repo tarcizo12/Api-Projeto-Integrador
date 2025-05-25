@@ -26,7 +26,7 @@ const sequelize = new Sequelize(DATABASE_URL, {
 
 const CONFIG = {
   CRIAR_BANCO: true,       
-  EXECUTAR_CARGA: true    
+  EXECUTAR_CARGA: false    
 };
 
 /**
