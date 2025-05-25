@@ -7,6 +7,7 @@ export class AnotacaoPacienteModel extends Model {
     public dhRegistro!: Date;
     public _fk_idPaciente!: number;
     public titulo!: string;
+    public emocaoEstimada!: string
 }
 
 AnotacaoPacienteModel.init({

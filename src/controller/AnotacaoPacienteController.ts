@@ -22,6 +22,18 @@ export default class AnotacaoPacienteController {
         return res.status(HttpStatus.OK.code).json(await this.anotacaoPacienteService.listarAntacoesPorIdPaciente(Number(idPaciente)));
     }
 
+    public async getDescricaoResumoResemanal(req: Request, res: Response): Promise<Response> {
+        const idPaciente: string = StringUtil.getQueryString(req.query, Parametros.ID_PACIENTE);
+        if (!idPaciente) { return this.erroIdAnotacaoNaoInformado(res) }
+        
+        try {
+            return res.status(HttpStatus.OK.code).json(await this.anotacaoPacienteService.retornaResumoSemanalGerada(Number(idPaciente)));
+        } catch (error) {
+            console.error("Falha ao gerar resumo ", error)
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).json({message: "Falha intera ao gera resumo", cause: error})
+        }
+    }
+
     public async postAnotacao(req: Request, res: Response): Promise<Response> {
         const body: AnotacaoPacienteModel = req.body
 

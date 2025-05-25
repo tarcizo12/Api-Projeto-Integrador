@@ -33,7 +33,8 @@ export const Endpoints = {
         "postAnotacao" : "/registrarAnotacao",
         "getAnotacoesByFiltros" : "/filtrar",
         "postVisualizarAnotacao" : "/anotacaoVisualizada",
-        "getTituloAnotacao": "/obterTitulo"
+        "getTituloAnotacao": "/obterTitulo",
+        "getResumoSemanal" : "/obterResumo"
     },
     'LOGIN':{
         "basePath" : Routes.LOGIN,

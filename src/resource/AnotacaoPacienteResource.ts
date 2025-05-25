@@ -25,6 +25,11 @@ export class AnotacaoPacienteResource {
       (req: Request, res: Response) => this.anotacaoPacienteController.getTituloAnotacaoByDescricao(req, res)
     );
 
+    this.router.get(
+      Endpoints.ANOTACOES.getResumoSemanal,
+      (req: Request, res: Response) => this.anotacaoPacienteController.getDescricaoResumoResemanal(req, res)
+    );
+
     this.router.post(
       Endpoints.ANOTACOES.postAnotacao,
       (req: Request, res: Response) => this.anotacaoPacienteController.postAnotacao(req, res)

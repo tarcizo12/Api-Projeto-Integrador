@@ -46,4 +46,11 @@ export interface AnotacaoPacienteInterface {
      * @return string do titulo
      */
     obterTituloAnotacaoPorIA(descricao : string): Promise<string>;
+
+
+    /**
+     * Retorna resumo semanal dos registros cadastrados na base
+     * @return string da descricao
+     */
+    retornaResumoSemanalGerada(idPaciente: number): Promise<string>
 }

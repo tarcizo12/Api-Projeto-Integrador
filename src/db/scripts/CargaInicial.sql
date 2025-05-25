@@ -24,9 +24,9 @@ VALUES
 -- Inserir Anotações para os Pacientes
 INSERT INTO Anotacao_Paciente (Descricao, EmocaoEstimada, DH_Registro, fk_idPaciente, Titulo)
 VALUES 
-('Anotação 1 para Carlos', 'Felicidade', '2023-09-28', 1, "Esse é  um dado de teste"),
-('Anotação 2 para Carlos', 'Entusiasmo', '2024-09-29', 1 , "Esse é  um dado de teste"),
-('Anotação 3 para Carlos', 'Surpresa', '2022-09-30', 1, "Esse é  um dado de teste"),
-('Anotação 1 para Ana', 'Raiva', '2020-09-28', 2, "Esse é  um dado de teste"),
-('Anotação 2 para Ana', 'Empolgacao', '2021-09-29', 2, "Esse é  um dado de teste"),
-('Anotação 3 para Ana', 'Medo', '2019-09-30', 2, "Esse é  um dado de teste");
+('Anotação 1 para Carlos', 'Felicidade', 'NOW()', 1, "Esse é  um dado de teste"),
+('Anotação 2 para Carlos', 'Entusiasmo', 'NOW()', 1 , "Esse é  um dado de teste"),
+('Anotação 3 para Carlos', 'Surpresa', 'NOW()', 1, "Esse é  um dado de teste"),
+('Anotação 1 para Ana', 'Raiva', 'NOW()', 2, "Esse é  um dado de teste"),
+('Anotação 2 para Ana', 'Empolgacao', 'NOW()', 2, "Esse é  um dado de teste"),
+('Anotação 3 para Ana', 'Medo', 'NOW()', 2, "Esse é  um dado de teste");
