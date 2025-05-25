@@ -76,7 +76,7 @@ async function inicializarBanco() {
 
     if (CONFIG.EXECUTAR_CARGA) {
       // Este script insere os dados.
-      await executarArquivoSQL(path.join(pastaScripts, 'Cargainicial.sql'));
+      await executarArquivoSQL(path.join(pastaScripts, 'CargaInicial.sql'));
     }
 
     console.log('🟢 Banco de dados inicializado com sucesso');
@@ -87,6 +87,7 @@ async function inicializarBanco() {
     if (erro instanceof Error) {
       if ('parent' in erro && erro.parent instanceof Error) {
         console.error('Detalhes do erro original (parent):', erro.parent.message);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         console.error('SQL que causou o erro:', (erro as any).sql); 
       }
       console.error('Mensagem do erro:', erro.message);
