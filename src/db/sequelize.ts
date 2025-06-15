@@ -63,7 +63,7 @@ async function inicializarBanco() {
     }
 
     if (CONFIG.EXECUTAR_CARGA) {
-      await executarArquivoSQL(path.join(pastaScripts, 'Cargainicial.sql'));
+      await executarArquivoSQL(path.join(pastaScripts, 'CargaInicial.sql'));
     }
 
     console.log('🟢 Banco de dados inicializado com sucesso');
