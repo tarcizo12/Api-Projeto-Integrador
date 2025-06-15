@@ -64,12 +64,19 @@ export default class AnotacaoPacienteController {
     }
 
     public async getTituloAnotacaoByDescricao(req: Request, res: Response): Promise<Response> {
-        const descricao = req.query.descricao as string;
+        try {
+            const descricao = req.query.descricao as string;
 
-        console.log("parametros: ", descricao)
-        const tituloGerado : string = await this.anotacaoPacienteService.obterTituloAnotacaoPorIA(descricao)
+            console.log("parametros: ", descricao)
+            const tituloGerado : string = await this.anotacaoPacienteService.obterTituloAnotacaoPorIA(descricao)
 
-        return res.status(HttpStatus.OK.code).json({ tituloGerado });
+            return res.status(HttpStatus.OK.code).json({ tituloGerado });
+        } catch (error) {
+            const statusReturn = HttpStatus.INTERNAL_SERVER_ERROR;
+
+            console.error('Erro ao gerar novo titulo', error);
+            return res.status(statusReturn.code).json(ErroBodyMensage.createErrorBody("Falha ao gerar titulo da mensagem." , statusReturn.description));
+        }
     }
 
     public async getAnotacoesPorFiltro(req: Request, res: Response): Promise<Response> {

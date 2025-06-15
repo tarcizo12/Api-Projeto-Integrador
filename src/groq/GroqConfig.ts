@@ -148,7 +148,7 @@ const getTituloAnotacao = async (content: string) => {
                     content: `Determine a emoção transmitida na mensagem e use sempre palavras em português. 
                             Retorne somente a propriedade 'title' no formato JSON, com um titulo que descreva brevemente o conteudo da mensagem para  que fique claro o conteudo dela , nao passe de 10 palavras. 
                             Não inclua mais nenhum texto além do JSON com a propriedade 'title' devidamente preenchida, e certifique-se de que as chaves de 
-                            abertura e fechamento do JSON estejam sempre presentes. Mensagem: "${content}"`,
+                            abertura e fechamento do JSON estejam sempre presentes. Mensagem: "${content}. Deve ter no maximo 40 caracteres."`,
                 },
             ],
             model: 'llama3-8b-8192',
