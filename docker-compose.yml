@@ -1,42 +1,91 @@
-version: '3.8'
-
 services:
   mysql:
     image: mysql:8.0
     container_name: mysql-projeto-integrador
+    restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root123  
-      MYSQL_DATABASE: projeto_integrador 
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root123}
+      MYSQL_DATABASE: ${DB_NAME:-projeto_integrador}
     ports:
-      - "3306:3306"
+      - "${DB_PORT:-3306}:3306"
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD:-root123}"]
       interval: 5s
       timeout: 10s
       retries: 20
     volumes:
-      - mysql_data:/var/lib/mysql  
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
 
   api:
-    build: .
+    build:
+      context: .
+      target: development
     container_name: api-projeto-integrador
     restart: unless-stopped
-    ports:
-      - "3000:3000"
+    env_file:
+      - .env
     environment:
       NODE_ENV: development
+      PORT: 3000
       DB_HOST: mysql
       DB_PORT: 3306
-      DB_USER: root  
-      DB_PASSWORD: root123 
-      DB_NAME: projeto_integrador
+      DB_USER: ${DB_USER:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-root123}
+      DB_NAME: ${DB_NAME:-projeto_integrador}
+      DB_AUTO_MIGRATE: "true"
+      DB_SEED: "true"
+      JWT_SECRET: ${JWT_SECRET:-troque-este-secret-em-producao}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-8h}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8081,http://127.0.0.1:8081}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+    ports:
+      - "3000:3000"
     depends_on:
       mysql:
         condition: service_healthy
     volumes:
       - .:/usr/src/app
-      # Removido o volume do node_modules para evitar sobrescrever
-    command: sh -c "sleep 15 && npm run dev"
+      - api_node_modules:/usr/src/app/node_modules
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ../Frontend-Projeto-Integrador
+      dockerfile: Dockerfile
+    container_name: frontend-projeto-integrador
+    restart: unless-stopped
+    environment:
+      EXPO_PUBLIC_API_URL: ${EXPO_PUBLIC_API_URL:-http://localhost:3000}
+      EXPO_DEVTOOLS_LISTEN_ADDRESS: 0.0.0.0
+      CHOKIDAR_USEPOLLING: "true"
+      CI: "false"
+    ports:
+      - "8081:8081"
+      - "19000:19000"
+      - "19006:19006"
+    volumes:
+      - ../Frontend-Projeto-Integrador:/app
+      - frontend_node_modules:/app/node_modules
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - app-network
 
 volumes:
   mysql_data:
+  api_node_modules:
+  frontend_node_modules:
+
+networks:
+  app-network:
+    driver: bridge

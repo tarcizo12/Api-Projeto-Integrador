@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { Endpoints } from "../enums/Paths";
 import AnotacaoPacienteController from '../controller/AnotacaoPacienteController'
+import { authenticateToken } from '../middlewares/authMiddleware';
 
 export class AnotacaoPacienteResource {
   private router: Router;
@@ -11,10 +12,9 @@ export class AnotacaoPacienteResource {
     this.initializeRoutes();
   }
 
-  /**
-   * Inicializa as rotas associadas às anotações do paciente.
-   */
   private initializeRoutes(): void {
+    this.router.use(authenticateToken);
+
     this.router.get(
       Endpoints.ANOTACOES.getAnotacaoPorIdPaciente,
       (req: Request, res: Response) => this.anotacaoPacienteController.getAnotacaoPorIdPaciente(req, res)
@@ -35,6 +35,16 @@ export class AnotacaoPacienteResource {
       (req: Request, res: Response) => this.anotacaoPacienteController.postAnotacao(req, res)
     );
 
+    this.router.put(
+      Endpoints.ANOTACOES.putAnotacao,
+      (req: Request, res: Response) => this.anotacaoPacienteController.putAnotacao(req, res)
+    );
+
+    this.router.delete(
+      Endpoints.ANOTACOES.deleteAnotacao,
+      (req: Request, res: Response) => this.anotacaoPacienteController.deleteAnotacao(req, res)
+    );
+
     this.router.post(
       Endpoints.ANOTACOES.getAnotacoesByFiltros,
       (req: Request, res: Response) => this.anotacaoPacienteController.getAnotacoesPorFiltro(req, res)
@@ -45,7 +55,6 @@ export class AnotacaoPacienteResource {
       (req: Request, res: Response) => this.anotacaoPacienteController.visualizarAnotacao(req, res)
     );
   }
-
 
   public getRouter(): Router { return this.router}
 }

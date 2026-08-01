@@ -23,6 +23,24 @@ export interface AnotacaoPacienteInterface {
     salvarAnoacaoPaciente(anotacaoParaSalvar: AnotacaoPacienteModel): Promise<number | undefined>;
 
     /**
+     * Atualiza uma anotação pertencente ao paciente autenticado.
+     */
+    atualizarAnotacaoPaciente(
+      idPaciente: number,
+      dados: {
+        idAnotacao: number;
+        titulo: string;
+        descricao: string;
+        emocaoEstimada?: string | null;
+      }
+    ): Promise<AnotacaoPacienteModel>;
+
+    /**
+     * Remove uma anotação pertencente ao paciente autenticado.
+     */
+    deletarAnotacaoById(idPaciente: number, idAnotacao: number): Promise<void>;
+
+    /**
      * Método atualizar registro de anotacao para VISUALIZADA do paciente
      * @return Sucesso para atualizar registro
      */

@@ -30,5 +30,22 @@ export interface PacienteServiceInterface {
      * @return String nome paciente
      */
     deletarPacienteById(idPaciente: number): Promise<PacienteModel>;
-    
+
+    /**
+     * Remove o vínculo do paciente com o psicólogo atual.
+     */
+    desvincularPsicologo(idPaciente: number): Promise<PacienteModel>;
+
+    /**
+     * Vincula o paciente a um psicólogo pelo ID do profissional.
+     */
+    vincularPsicologo(idPaciente: number, idPsicologo: number): Promise<PacienteModel>;
+
+    /**
+     * Atualiza dados do perfil do paciente.
+     */
+    atualizarPerfil(
+      idPaciente: number,
+      dados: { nome?: string; email?: string; telefone?: string | null }
+    ): Promise<PacienteModel>;
 }

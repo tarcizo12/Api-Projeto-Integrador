@@ -1,17 +1,26 @@
-import { Request, Response, NextFunction } from 'express'
-import jwt from 'jsonwebtoken'
+import { Request, Response, NextFunction } from 'express';
+import { verifyAccessToken, JwtPayload } from '../utils/jwt';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'defaultsecret'
+declare global {
+  namespace Express {
+    interface Request {
+      user?: JwtPayload;
+    }
+  }
+}
 
 export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1]
+  const authHeader = req.headers.authorization;
+  const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : undefined;
 
-  if (!token) return res.sendStatus(401)
+  if (!token) {
+    return res.status(401).json({ message: 'Token de autenticação ausente.' });
+  }
 
-  jwt.verify(token, JWT_SECRET, (err: any, decoded: any) => {
-    if (err) return res.sendStatus(403)
-    req.body.userId = decoded.userId
-    next()
-  })
-}
+  try {
+    req.user = verifyAccessToken(token);
+    return next();
+  } catch {
+    return res.status(401).json({ message: 'Token inválido ou expirado.' });
+  }
+};

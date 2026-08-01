@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import cors from 'cors'; // Importação do middleware CORS
+import cors from 'cors';
+import helmet from 'helmet';
 import { Endpoints } from './enums/Paths';
 import Routes from './enums/Routes';
 
@@ -18,23 +19,32 @@ class Server {
   }
 
   private initializeMiddlewares(): void {
-    this.api.use(express.json());
+    this.api.use(helmet());
+    this.api.use(express.json({ limit: '1mb' }));
 
-    const allowedOrigins = [
-      process.env.LOCALHOST_ADDRESS_FRONTEND,
-      process.env.ANDROID_STUDIO_ADDRESS_FRONTEND,
-    ].filter(Boolean) as string[];
+    const allowedOrigins = (process.env.CORS_ORIGINS || '')
+      .split(',')
+      .map((origin) => origin.trim())
+      .filter(Boolean);
 
     this.api.use(
       cors({
-        origin: allowedOrigins,
-        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        origin: allowedOrigins.length > 0 ? allowedOrigins : true,
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
         credentials: true,
       })
     );
   }
 
   private initializeRoutes(): void {
+    this.api.get('/health', (_req, res) => {
+      res.status(200).json({
+        status: 'ok',
+        service: 'api-projeto-integrador',
+        timestamp: new Date().toISOString(),
+      });
+    });
+
     this.api.use(Endpoints.PSICOLOGO.basePath, Routes.PsicologoRouter);
     this.api.use(Endpoints.PACIENTE.basePath, Routes.PacienteRouter);
     this.api.use(Endpoints.ATIVIDADES.basePath, Routes.AtividadePacienteResource);
@@ -43,11 +53,9 @@ class Server {
   }
 
   public listen(): void {
-    this.api.listen(this.port, () => {
-      console.log(
-        `Servidor rodando na porta ${this.port}`,
-        '\nPara testar: curl http://localhost:3000/'
-      );
+    this.api.listen(this.port, '0.0.0.0', () => {
+      console.log(`Servidor rodando na porta ${this.port}`);
+      console.log(`Healthcheck: http://localhost:${this.port}/health`);
     });
   }
 }

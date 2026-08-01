@@ -7,6 +7,7 @@ import { AnotacaoPacienteModel } from '../model/AnotacaoPacienteModel';
 
 dotenv.config();
 
+const GROQ_MODEL = process.env.GROQ_MODEL || 'llama-3.1-8b-instant';
 const GROQ = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 
@@ -17,8 +18,9 @@ const GROQ = new Groq({ apiKey: process.env.GROQ_API_KEY });
 const obterEmocaoDescricaoAnotacao = async (message: string): Promise<ValoresProcessadosGroq> => {
     try {
         const emotionAnalysis = await getEmotionAnalysis(message);
+        const emocao = String(emotionAnalysis.emotion || '').trim();
 
-        return { titulo: "", emocaoEstimada: emotionAnalysis.emotion };
+        return { titulo: "", emocaoEstimada: emocao };
     } catch (err) {
 
         const error = err instanceof Error ? err : new Error(String(err));
@@ -89,7 +91,7 @@ Resumo:
                     content: prompt
                 }
             ],
-            model: 'llama3-8b-8192'
+            model: GROQ_MODEL
         });
 
         return response.choices[0]?.message?.content?.trim() || 'Resumo não gerado.';
@@ -106,25 +108,46 @@ Resumo:
 };
 
 
+const extrairJson = (conteudo: string): Record<string, unknown> => {
+    const limpo = conteudo.trim();
+    try {
+        return JSON.parse(limpo);
+    } catch {
+        const match = limpo.match(/\{[\s\S]*\}/);
+        if (!match) {
+            throw new Error('Resposta da IA sem JSON válido.');
+        }
+        return JSON.parse(match[0]);
+    }
+};
+
 const getEmotionAnalysis = async (content: string) => {
     try {
         const response = await GROQ.chat.completions.create({
             messages: [
                 {
+                    role: 'system',
+                    content:
+                        'Você classifica emoções de relatos pessoais em português. Responda apenas JSON válido.',
+                },
+                {
                     role: 'user',
-                    content: `Determine a emoção transmitida na mensagem e use sempre palavras em português. 
-                            Retorne somente a propriedade 'emotion' no formato JSON, com o valor correspondente a uma das 
-                            seguintes emoções: ${getEmocoesConcatenadasString()}. 
-                            Não inclua mais nenhum texto além do JSON com a propriedade 'emotion' devidamente preenchida, e certifique-se de que as chaves de 
-                            abertura e fechamento do JSON estejam sempre presentes. Mensagem: "${content}"`,
+                    content: `Classifique a emoção predominante do relato abaixo.
+Use exatamente uma destas emoções: ${getEmocoesConcatenadasString()}.
+Responda somente neste formato: {"emotion":"..."}.
+
+Relato:
+"""
+${content}
+"""`,
                 },
             ],
-            model: 'llama3-8b-8192',
+            model: GROQ_MODEL,
+            temperature: 0.2,
         });
 
         const completionContent = response.choices[0]?.message?.content || '';
-        const cleanContent = completionContent.replace(/\n/g, '').trim();
-        return JSON.parse(cleanContent);
+        return extrairJson(completionContent);
     } catch (err) {
         const error = err instanceof Error ? err : new Error(String(err));
 
@@ -144,19 +167,37 @@ const getTituloAnotacao = async (content: string) => {
         const response = await GROQ.chat.completions.create({
             messages: [
                 {
+                    role: 'system',
+                    content: `Você cria títulos curtos para diário emocional.
+Regras:
+- O título deve refletir o que a pessoa realmente escreveu (fato + sentimento).
+- Use palavras do próprio relato quando fizer sentido.
+- Evite frases genéricas de autoajuda (ex.: "praticando autocontrole", "superando desafios").
+- Não invente acontecimentos que não estão no texto.
+- Português do Brasil, tom humano e simples.
+- No máximo 8 palavras.
+- Responda somente JSON válido no formato {"title":"..."}`,
+                },
+                {
                     role: 'user',
-                    content: `Determine a emoção transmitida na mensagem e use sempre palavras em português. 
-                            Retorne somente a propriedade 'title' no formato JSON, com um titulo que descreva brevemente o conteudo da mensagem para  que fique claro o conteudo dela , nao passe de 10 palavras. 
-                            Não inclua mais nenhum texto além do JSON com a propriedade 'title' devidamente preenchida, e certifique-se de que as chaves de 
-                            abertura e fechamento do JSON estejam sempre presentes. Mensagem: "${content}. Deve ter no maximo 40 caracteres."`,
+                    content: `Crie um título fiel a este relato:
+
+"""
+${content}
+"""`,
                 },
             ],
-            model: 'llama3-8b-8192',
+            model: GROQ_MODEL,
+            temperature: 0.35,
         });
 
         const completionContent = response.choices[0]?.message?.content || '';
-        const cleanContent = completionContent.replace(/\n/g, '').trim();
-        return JSON.parse(cleanContent);
+        const parsed = extrairJson(completionContent);
+        const title = String(parsed.title || '').trim();
+        if (!title) {
+            throw new Error('Título vazio retornado pela IA.');
+        }
+        return { title };
     } catch (err) {
         const error = err instanceof Error ? err : new Error(String(err));
 

@@ -13,6 +13,8 @@ export const Endpoints = {
         "getUsuariosPsicologos" :  "/all",
         "getPsicologoById" : "/buscarPsicologo",
         "vincularPacienteById" : "/vincularPaciente",
+        "atualizarPerfil" : "/atualizarPerfil",
+        "deleteContaPsicologo" : "/deletarConta",
     },
     'PACIENTE' : {
         "basePath" : Routes.PACIENTE,
@@ -20,6 +22,10 @@ export const Endpoints = {
         "getPacienteById" : "/buscarPaciente",
         "getPacientesByIdProfissional" : "/buscarPacientePorProfissional",
         "deleteContaPaciente" : "/deletarPacienteById",
+        "desvincularPsicologo" : "/desvincularPsicologo",
+        "vincularPsicologo" : "/vincularPsicologo",
+        "atualizarPerfil" : "/atualizarPerfil",
+        "deleteContaPropria" : "/deletarConta",
     },
     'ATIVIDADES' : {
         "basePath" : Routes.ATIVIDADE_PACIENTE,
@@ -31,6 +37,8 @@ export const Endpoints = {
         "getAllAnotacoes" : "/all",
         "getAnotacaoPorIdPaciente" : "/buscarAnotacaoPorIdPaciente",
         "postAnotacao" : "/registrarAnotacao",
+        "putAnotacao" : "/atualizarAnotacao",
+        "deleteAnotacao" : "/deletarAnotacao",
         "getAnotacoesByFiltros" : "/filtrar",
         "postVisualizarAnotacao" : "/anotacaoVisualizada",
         "getTituloAnotacao": "/obterTitulo",
@@ -39,7 +47,10 @@ export const Endpoints = {
     'LOGIN':{
         "basePath" : Routes.LOGIN,
         "realizarLogin" : "/login",
-        "realizarCadastro" : "/cadastrar"
+        "realizarCadastro" : "/cadastrar",
+        "solicitarCodigoRecuperacao" : "/solicitarCodigoRecuperacao",
+        "redefinirSenhaComCodigo" : "/redefinirSenhaComCodigo",
+        "trocarSenha" : "/trocarSenha",
     },
     'TESTES':{
         "pingApi" : "/"

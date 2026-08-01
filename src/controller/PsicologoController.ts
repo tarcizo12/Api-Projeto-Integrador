@@ -5,6 +5,7 @@ import { PsicologoService } from '../service/PsicologoService';
 import { StringUtil } from '../utils/StringUtil';
 import { Parametros } from '../enums/Parametros';
 import { PsicologoServiceInterface } from '../interfaces/PsicologoServiceInterface';
+import { sanitizeUser } from '../utils/sanitizeUser';
 
 
 /**
@@ -65,6 +66,65 @@ export class PsicologoController{
 
             console.error('Erro ao buscar profissionall', error);
             return res.status(statusReturn.code).json(ErroBodyMensage.createErrorBody("Erro ao criar vinculo de contas entre Psicologo e Paciente" , statusReturn.description));
+        }
+    }
+
+    public async atualizarPerfil(req: Request, res: Response): Promise<Response> {
+        try {
+            if (!req.user?.isPsicologo) {
+                return res.status(HttpStatus.FORBIDDEN.code).json(
+                    ErroBodyMensage.createErrorBody(
+                        'Apenas psicólogos podem atualizar este perfil.',
+                        HttpStatus.FORBIDDEN.description
+                    )
+                );
+            }
+
+            const psicologo = await this.psicologoService.atualizarPerfil(req.user.userId, {
+                nome: req.body?.nome,
+                email: req.body?.email,
+                crp: req.body?.crp,
+            });
+
+            return res.status(HttpStatus.OK.code).json({
+                message: 'Perfil atualizado com sucesso.',
+                data: sanitizeUser(psicologo),
+            });
+        } catch (error) {
+            const message = (error as { message?: string }).message || 'Erro ao atualizar perfil';
+            const isClientError =
+                message.toLowerCase().includes('não encontrado') ||
+                message.toLowerCase().includes('e-mail');
+            const statusReturn = isClientError ? HttpStatus.BAD_REQUEST : HttpStatus.INTERNAL_SERVER_ERROR;
+
+            console.error('Erro ao atualizar perfil do psicólogo:', error);
+            return res.status(statusReturn.code).json(
+                ErroBodyMensage.createErrorBody(message, statusReturn.description)
+            );
+        }
+    }
+
+    public async deletarConta(req: Request, res: Response): Promise<Response> {
+        try {
+            if (!req.user?.isPsicologo) {
+                return res.status(HttpStatus.FORBIDDEN.code).json(
+                    ErroBodyMensage.createErrorBody(
+                        'Apenas psicólogos podem excluir esta conta.',
+                        HttpStatus.FORBIDDEN.description
+                    )
+                );
+            }
+
+            const psicologo = await this.psicologoService.deletarConta(req.user.userId);
+            return res.status(HttpStatus.OK.code).json({
+                message: `Conta de ${psicologo.nome} excluída com sucesso.`,
+            });
+        } catch (error) {
+            const statusReturn = HttpStatus.INTERNAL_SERVER_ERROR;
+            console.error('Erro ao excluir conta do psicólogo:', error);
+            return res.status(statusReturn.code).json(
+                ErroBodyMensage.createErrorBody('Erro ao excluir conta', statusReturn.description)
+            );
         }
     }
 }
