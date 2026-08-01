@@ -69,7 +69,7 @@ export class AnotacaoPacienteService implements AnotacaoPacienteInterface {
             );
 
             console.log("Anotacoes atualizadas para visualizadas : ", linhasAtualizadas)
-            return linhasAtualizadas > 0;
+            return true;
         } catch (error) {
             const errorMessage = (error as { message?: string }).message || 'Erro desconhecido';
             throw new Error("Erro ao atualizar anotação: " + errorMessage);
@@ -143,30 +143,16 @@ export class AnotacaoPacienteService implements AnotacaoPacienteInterface {
     }
 
     async salvarAnoacaoPaciente(anotacaoParaSalvar: AnotacaoPacienteModel): Promise<number | undefined> {
-        // O app já envia a emoção escolhida pelo paciente; a IA é opcional.
-        let emocaoEstimada =
-            (anotacaoParaSalvar as { emocaoEstimada?: string | null }).emocaoEstimada?.trim() ||
-            '';
-
-        if (!emocaoEstimada) {
-            try {
-                const resultado = await obterEmocaoDescricaoAnotacao(anotacaoParaSalvar.descricao);
-                emocaoEstimada = resultado.emocaoEstimada || 'Neutro';
-            } catch (error) {
-                console.error('Falha ao estimar emoção via IA; salvando sem bloquear.', error);
-                emocaoEstimada = 'Neutro';
-            }
-        }
+        const { emocaoEstimada } = await obterEmocaoDescricaoAnotacao(anotacaoParaSalvar.descricao);
 
         try {
             const objetoParaSalvar = {
-                descricao: String(anotacaoParaSalvar.descricao || '').slice(0, 2000),
+                descricao: anotacaoParaSalvar.descricao,
                 emocaoEstimada,
-                titulo: String(anotacaoParaSalvar.titulo || 'Nova anotação').slice(0, 255),
+                titulo: anotacaoParaSalvar.titulo,
                 dhRegistro: new Date(),
                 fk_idPaciente: anotacaoParaSalvar._fk_idPaciente,
-                isVisualizada: false,
-            };
+            }
 
             const novaAnotacao = await AnotacaoPacienteModel.create(objetoParaSalvar);
 
@@ -175,53 +161,6 @@ export class AnotacaoPacienteService implements AnotacaoPacienteInterface {
             console.error("Erro ao salvar anotação:", error);
             return undefined;
         }
-    }
-
-    async atualizarAnotacaoPaciente(
-        idPaciente: number,
-        dados: {
-            idAnotacao: number;
-            titulo: string;
-            descricao: string;
-            emocaoEstimada?: string | null;
-        }
-    ): Promise<AnotacaoPacienteModel> {
-        const anotacao = await AnotacaoPacienteModel.findByPk(dados.idAnotacao);
-        if (!anotacao || anotacao.fk_idPaciente !== idPaciente) {
-            throw new Error('Anotação não encontrada.');
-        }
-
-        const titulo = String(dados.titulo || '').trim().slice(0, 255);
-        const descricao = String(dados.descricao || '').trim().slice(0, 2000);
-        if (!titulo) {
-            throw new Error('Informe um título para o registro.');
-        }
-        if (!descricao) {
-            throw new Error('Informe a descrição do registro.');
-        }
-
-        const emocaoEstimada =
-            (dados.emocaoEstimada || anotacao.emocaoEstimada || 'Neutro').toString().trim() ||
-            'Neutro';
-
-        await anotacao.update({
-            titulo,
-            descricao,
-            emocaoEstimada,
-            // Edição volta o registro para não lido, para o profissional notar a mudança.
-            isVisualizada: false,
-        });
-
-        return anotacao;
-    }
-
-    async deletarAnotacaoById(idPaciente: number, idAnotacao: number): Promise<void> {
-        const anotacao = await AnotacaoPacienteModel.findByPk(idAnotacao);
-        if (!anotacao || anotacao.fk_idPaciente !== idPaciente) {
-            throw new Error('Anotação não encontrada.');
-        }
-
-        await anotacao.destroy();
     }
 
     async obterTituloAnotacaoPorIA(descricao: string): Promise<string> {

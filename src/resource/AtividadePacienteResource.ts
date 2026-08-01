@@ -1,7 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { Endpoints } from "../enums/Paths";
 import { AtividadePacienteController } from '../controller/AtividadePacienteController';
-import { authenticateToken } from '../middlewares/authMiddleware';
 
 export class AtividadePacienteResource {
   private router: Router;
@@ -12,9 +11,10 @@ export class AtividadePacienteResource {
     this.initializeRoutes();
   }
 
+  /**
+   * Inicializa as rotas associadas às atividades do paciente.
+   */
   private initializeRoutes(): void {
-    this.router.use(authenticateToken);
-
     this.router.get(
       Endpoints.ATIVIDADES.getAllAtividades,
       (req: Request, res: Response) => this.atividadePacienteController.getAll(req, res)
@@ -30,6 +30,7 @@ export class AtividadePacienteResource {
       (req: Request, res: Response) => this.atividadePacienteController.getAtividadesPorPaciente(req, res)
     );
   }
+
 
   public getRouter(): Router { return this.router}
 }

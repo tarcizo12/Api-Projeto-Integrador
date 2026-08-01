@@ -1,11 +1,11 @@
-import { Request, Response, Router } from 'express';
-import { Endpoints } from '../enums/Paths';
+import { Request, Response, Router } from 'express';; 
+import { Endpoints } from "../enums/Paths";
 import { LoginController } from '../controller/LoginController';
-import { authenticateToken } from '../middlewares/authMiddleware';
 
 export class LoginResource {
   private router: Router;
   private loginController: LoginController;
+
 
   constructor() {
     this.router = Router();
@@ -13,37 +13,23 @@ export class LoginResource {
     this.initializeRoutes();
   }
 
+  /**
+   * Inicializa as rotas associadas aos recursos do logoin.
+   */
   private initializeRoutes(): void {
+    
     this.router.post(
       Endpoints.LOGIN.realizarLogin,
       (req: Request, res: Response) => this.loginController.postLoginUsuario(req, res)
     );
-
+    
     this.router.post(
       Endpoints.LOGIN.realizarCadastro,
       (req: Request, res: Response) => this.loginController.postCadastroNovoUsuario(req, res)
     );
-
-    this.router.post(
-      Endpoints.LOGIN.solicitarCodigoRecuperacao,
-      (req: Request, res: Response) => this.loginController.postSolicitarCodigoRecuperacao(req, res)
-    );
-
-    this.router.post(
-      Endpoints.LOGIN.redefinirSenhaComCodigo,
-      (req: Request, res: Response) => this.loginController.postRedefinirSenhaComCodigo(req, res)
-    );
-
-    this.router.post(
-      Endpoints.LOGIN.trocarSenha,
-      authenticateToken,
-      (req: Request, res: Response) => this.loginController.postTrocarSenha(req, res)
-    );
   }
 
-  public getRouter(): Router {
-    return this.router;
-  }
+  public getRouter(): Router { return this.router}
 }
 
 export default new LoginResource().getRouter();

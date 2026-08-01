@@ -57,4 +57,4 @@ coverage/
 .env.production.local
 
 # Ignore arquivos temporários do npm
-# package-lock.json must be committed for reproducible installs
+package-lock.json

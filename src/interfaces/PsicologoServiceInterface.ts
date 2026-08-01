@@ -20,18 +20,5 @@ export interface PsicologoServiceInterface {
      * Método para vincular Paciente ao psicologo por compartilhamento do ID
      * @return True em caso de sucesso
      */
-    criarVinculoComContaPaciente(idPaciente: number, idPsicologoLogado: number): Promise<boolean>;
-
-    /**
-     * Atualiza dados do perfil do psicólogo.
-     */
-    atualizarPerfil(
-      idPsicologo: number,
-      dados: { nome?: string; email?: string; crp?: string }
-    ): Promise<PsicologoModel>;
-
-    /**
-     * Exclui a conta do psicólogo e remove vínculos com pacientes.
-     */
-    deletarConta(idPsicologo: number): Promise<PsicologoModel>;
+    criarVinculoComContaPaciente(idPaciente: number, idPsicologoLogado: number): Promise<boolean>
 }

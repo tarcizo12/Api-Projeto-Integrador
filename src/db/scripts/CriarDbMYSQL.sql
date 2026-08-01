@@ -34,10 +34,10 @@ CREATE TABLE IF NOT EXISTS projeto_integrador.Atividade_Paciente (
 
 CREATE TABLE IF NOT EXISTS projeto_integrador.Anotacao_Paciente (
     idAnotacao INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    Descricao TEXT NOT NULL,
+    Descricao VARCHAR(255) NOT NULL,
     EmocaoEstimada VARCHAR(255) NOT NULL,
     Titulo VARCHAR(255) NOT NULL,
-    DH_Registro DATETIME,
+    DH_Registro DATE,
     isVisualizada BOOLEAN DEFAULT FALSE,
     fk_idPaciente INT,
     FOREIGN KEY (fk_idPaciente) REFERENCES Paciente(idPaciente)

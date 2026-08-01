@@ -10,7 +10,7 @@ export class PacienteModel extends Model {
     public senha!: string;
     public nomeDoResponsavel!: string;
     public telefone!: string;
-    public fk_idProfissional!: number | null;
+    public fk_idProfissional!: number;
 }
 
 PacienteModel.init({
@@ -47,15 +47,10 @@ PacienteModel.init({
     telefone: {
         type: DataTypes.STRING(15),
         allowNull: true,
-        field: 'Telefone',
-        get() {
-            const value = this.getDataValue('telefone');
-            return value === null || value === undefined ? null : String(value);
-        },
     },
     fk_idProfissional: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
     },
 }, {
     sequelize,

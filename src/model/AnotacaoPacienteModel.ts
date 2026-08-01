@@ -6,10 +6,8 @@ export class AnotacaoPacienteModel extends Model {
     public descricao!: string;
     public dhRegistro!: Date;
     public _fk_idPaciente!: number;
-    public fk_idPaciente!: number;
     public titulo!: string;
-    public emocaoEstimada!: string;
-    public isVisualizada!: boolean;
+    public emocaoEstimada!: string
 }
 
 AnotacaoPacienteModel.init({
@@ -20,9 +18,8 @@ AnotacaoPacienteModel.init({
         allowNull: false,
     },
     descricao: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING(255),
         allowNull: false,
-        field: 'Descricao',
     },
     emocaoEstimada: {
         type: DataTypes.STRING(255),

@@ -2,11 +2,8 @@ import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
-import { hashPassword, isPasswordHashed } from '../utils/password';
 
 dotenv.config();
-
-const isDevelopment = process.env.NODE_ENV === 'development';
 
 const sequelize = new Sequelize({
   database: process.env.DB_NAME,
@@ -15,19 +12,18 @@ const sequelize = new Sequelize({
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT || '3306'),
   dialect: 'mysql',
-  timezone: '-03:00',
-  dialectOptions: {
-    dateStrings: false,
-    typeCast: true,
-  },
-  logging: isDevelopment ? console.log : false,
+  logging: console.log
 });
 
 const CONFIG = {
-  CRIAR_BANCO: process.env.DB_AUTO_MIGRATE === 'true' || isDevelopment,
-  EXECUTAR_CARGA: process.env.DB_SEED === 'true' || isDevelopment,
+  CRIAR_BANCO: true,       
+  EXECUTAR_CARGA: false 
 };
 
+/**
+ * Executa um arquivo SQL contendo múltiplos comandos
+ * @param caminhoArquivo Caminho completo do arquivo SQL
+ */
 async function executarArquivoSQL(caminhoArquivo: string) {
   try {
     const conteudoSQL = fs.readFileSync(caminhoArquivo, 'utf8');
@@ -36,8 +32,8 @@ async function executarArquivoSQL(caminhoArquivo: string) {
       .replace(/--.*$/gm, '')
       .replace(/\/\*[\s\S]*?\*\//g, '')
       .split(';')
-      .map((cmd) => cmd.trim())
-      .filter((cmd) => cmd.length > 0);
+      .map(cmd => cmd.trim())
+      .filter(cmd => cmd.length > 0);
 
     for (const comando of comandos) {
       if (comando) {
@@ -51,32 +47,12 @@ async function executarArquivoSQL(caminhoArquivo: string) {
   }
 }
 
-async function garantirSenhasHasheadas() {
-  const tables = [
-    { table: 'Paciente', idColumn: 'idPaciente' },
-    { table: 'Psicologo', idColumn: 'idProfissional' },
-  ] as const;
-
-  for (const { table, idColumn } of tables) {
-    const [rows] = await sequelize.query(
-      `SELECT ${idColumn} AS id, Senha AS senha FROM ${table}`
-    );
-
-    for (const row of rows as Array<{ id: number; senha: string }>) {
-      if (!isPasswordHashed(row.senha)) {
-        const hashed = await hashPassword(row.senha);
-        await sequelize.query(`UPDATE ${table} SET Senha = :senha WHERE ${idColumn} = :id`, {
-          replacements: { senha: hashed, id: row.id },
-        });
-      }
-    }
-  }
-
-  console.log('✅ Senhas do seed normalizadas com bcrypt');
-}
-
+/**
+ * Inicializa o banco de dados conforme configuração
+ */
 async function inicializarBanco() {
   try {
+    // Testa a conexão com o banco
     await sequelize.authenticate();
     console.log('✅ Conexão com o banco estabelecida com sucesso');
 
@@ -88,15 +64,16 @@ async function inicializarBanco() {
 
     if (CONFIG.EXECUTAR_CARGA) {
       await executarArquivoSQL(path.join(pastaScripts, 'CargaInicial.sql'));
-      await garantirSenhasHasheadas();
     }
 
     console.log('🟢 Banco de dados inicializado com sucesso');
+
   } catch (erro) {
     console.error('❌ Falha crítica na inicialização do banco:', erro);
     process.exit(1);
   }
 }
+
 
 inicializarBanco();
 
